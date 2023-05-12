@@ -51,7 +51,7 @@ function App() {
               <Route path="/PAYMENTFAILURE" element={<PaymentFailurePage/>}/>
 
               {/* offers routes*/}
-              <Route path="/offers" element={<OffersPage/>}/>
+              <Route path="/useroffers" element={<OffersPage/>}/>
 
 
 
