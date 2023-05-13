@@ -15,6 +15,7 @@
     /* padding: 0px 0px 100px 0px; */
     text-align: center;
     /* padding:60px 0px 30px 0px; */
+    padding: 30px 0px;
 }
 
 .offers-page .csm-heading 
@@ -143,7 +144,7 @@
 .next-offer-div
 {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 5px;
     text-align: left;
     padding: 10px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -152,6 +153,7 @@
 .next-offer-product-image
 {
     background-color: #C8B6E2;
+    border: 2px solid #C8B6E2;
     text-align: center;
     width: 100%;
     border-radius: 5px;
@@ -227,8 +229,7 @@
     padding: 10px;
     border-radius: 2px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    margin-bottom: 30px;
-    margin-top: 20px;
+    margin: 20px auto
 
 }
 
@@ -381,6 +382,23 @@
 
 .csm-logo
 {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
+}
+
+.winner-component, .congratulations-container, .next-offer-div
+{
+    max-width: 280px;
+}
+
+.next-offer, .winner-list-container, .winner-container, .normal-offers-container, .congratulations-container
+{
+    max-width: 280px;
+    margin: auto;
+}
+
+#previous-winners-carousel, #offers-carousel
+{
+    max-width: 280px;
+    margin: auto;
 }

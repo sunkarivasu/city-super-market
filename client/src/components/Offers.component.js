@@ -34,6 +34,7 @@ function OffersPage()
     var [winner,setWinner] = useState(); 
     var [day,setDay] = useState("");
     var [normalOffers,setNormalOffers] = useState(null)
+    var [generatedWinner,setGeneratedWinnner] = useState(null)
 
 
     // initial required api calls
@@ -41,13 +42,16 @@ function OffersPage()
     { 
         // console.log({isResultsTime});
 
-        axios.get("/offers/").then((res) =>
+        axios.get("/offers/previousWinners").then((res) =>
         {
+            console.log(res.data);
+            // var reve = res.data.reverse();
+            // console.log(reve);
             setWinnersList(res.data)
         })
         .catch((err) =>
         {
-            console.log("Erroe occured while fetching offers ..",err);
+            console.log("Error occured while fetching offers ..",err);
         })
         
         axios.get("/offerUsers/")
@@ -71,7 +75,7 @@ function OffersPage()
             console.log("Error occured while fetching today's offer",err);
         })
 
-        axios.get("normalOffers/")
+        axios.get("normalOffers/getActiveOffers")
         .then((res) =>
         {
             setNormalOffers(res.data)
@@ -97,12 +101,7 @@ function OffersPage()
             .then((res) =>
             {
                 console.log(res.data);
-                setPreviousWinner({
-                    winnerName:res.data.winnerName,
-                    date:res.data.date,
-                    winnerPhoneNumber:res.data.winnerPhoneNumer,
-                    winnerImage:res.data.winnerImage
-                })
+                setPreviousWinner(res.data)
             })
             .catch((err) =>
             {
@@ -125,6 +124,7 @@ function OffersPage()
         else
         {
             setStage({...initialStage,'isNormal':true})
+            // setStage({...initialStage,'isRunning':true})
             setDay("Yesterday");
         }
         if(hours>=17)
@@ -210,6 +210,13 @@ function OffersPage()
     {
         if(stage['isRunning'])
         {
+            axios.get("/offers/getTodaysWinner")
+            .then((res)=>{
+                setGeneratedWinnner(res.data)
+            })
+            .catch((err)=>{
+                console.log("Error occured while fetching generated winner");
+            })
             setTimeout(()=>
             {
                 setStage({...resetStage,"isRunning":false,"isWaiting":true});
@@ -244,8 +251,8 @@ function OffersPage()
 
     return <div className="offers-page">
             {stage['isRunning'] === true?<GeneratingWinnerResponse/>
-            :stage['isWaiting']?<WaitingTimeContainer winnerNumber={[9,9,4,9,5,6,6,5,8,5]}/>
-            :stage['isShowing']?<ShowResult/>
+            :stage['isWaiting'] && generatedWinner ?<WaitingTimeContainer winnerPhoneNumber={generatedWinner.winnerPhoneNumber}/>
+            :stage['isShowing']?<ShowResult winner={generatedWinner}/>
             :<div className="container">
                 <div className="top-heading">
                     <div className="csm-heading">
@@ -258,7 +265,7 @@ function OffersPage()
                 </div>
                 <div className="normal-offers-container">
                 <h5>Special offers only for you</h5>
-                <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
+                <div id="offers-carousel carouselExampleControls" className="carousel slide" data-ride="carousel">
                         <div className="carousel-inner">
                             {normalOffers && normalOffers.map((offer,index) =>
                                 {
@@ -326,11 +333,13 @@ function OffersPage()
                         <div className="next-offer-product-image offer-product-image">
                             {nextOffer ? <img src={nextOffer.image}/>:<BiImage className="no-image vertical-center"/>}
                         </div>
-                        <div className="offer-details">
+                        {nextOffer?<div className="offer-details">
                             <p className="product-name">{nextOffer?nextOffer.productName:""}</p>
                             <p className="product-description">{nextOffer?nextOffer.description:""}</p>
                             <p className="product-worth">RS {nextOffer?nextOffer.worth:""}</p>
-                        </div>
+                        </div>:<div>
+                            <p className="product-name">No Offer</p>
+                            </div>}
                     </div>
                 </div>
                 <div className="winner-container">
@@ -339,7 +348,7 @@ function OffersPage()
                 </div>
                 <div className="winner-list-container">
                     <h5 className="section-heading">Previous Winners</h5>
-                    <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
+                    {<div id="previous-winners-carousel carouselExampleControls" className="carousel slide" data-ride="carousel">
                         <div className="carousel-inner">
                            
                             {winnersList.slice(0).reverse().map((winner,index) =>{
@@ -358,8 +367,7 @@ function OffersPage()
                                     return <div className="carousel-item" key={index}>
                                     <WinnerComponent winner={winner}/>
                                     </div>
-                                }
-                                
+                                } 
                             })}
                         </div>  
                         <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -370,7 +378,7 @@ function OffersPage()
                         <span className="carousel-control-next-icon" aria-hidden="true"></span>
                             <span className="sr-only">Next</span>
                         </a>
-                    </div>
+                    </div>}
                 </div>
             </div> }   
         </div>
@@ -413,8 +421,8 @@ function OfferComponent(props)
                 <div className="winner-name">{props.offer && props.offer.productName}</div>
                 {/* <div className="winner-date">{props.offer && props.offer.price}</div> */}
                 <div className="price">
-                    <p className="item-priceAfterDiscount col-6">RS {props.offer && Math.round(props.offer.price*(100-props.offer.discount)/100)}</p>
-                    {props.offer &&  props.offer.discount>0 && <p className="item-price col-6">RS {props.offer.price}</p>}
+                    <p className="item-priceAfterDiscount col-6">RS {props.offer && props.offer.retailPrice>0 && props.offer.retailPrice}</p>
+                    {props.offer &&  props.offer.price>0 && <p className="item-price col-6">RS {props.offer.price}</p>}
                 </div>
                 <p className="item-description">{props.offer && props.offer.description}</p>
             </div>
@@ -472,7 +480,13 @@ function GeneratingWinnerResponse()
 
 function WaitingTimeContainer(props)
 {
-    var winnerPhoneNumber = props.winnerNumber
+    console.log(props.winnerPhoneNumber)
+    var winnerPhoneNumber = []
+    for(var i=0;i<props.winnerPhoneNumber.length;i++)
+    {
+        winnerPhoneNumber.push(props.winnerPhoneNumber[i]);
+    }
+    console.log({winnerPhoneNumber});
     var [revealedNumber,setRevealedNumber] = useState([0,0,0,0,0,0,0,0,0,0])
     
     useEffect( () =>
@@ -529,7 +543,7 @@ function WaitingTimeContainer(props)
     </div>
 }
 
-function ShowResult()
+function ShowResult(props)
 {
     return <div className="showing-time-container">
         <Confetti numberOfPieces={100}></Confetti>
@@ -538,7 +552,7 @@ function ShowResult()
             <p>Congratulations</p>
         </div>
         <div className="winner">
-            <p>Sunkari Vasu</p>
+            <p>{props.winner.winnerName}</p>
         </div>
     </div>
 }

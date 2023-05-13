@@ -9,6 +9,20 @@ router.route("/").get((req,res)=>
     .catch((err) => res.status(400).json("Error"+err));
 });
 
+router.route("/previousWinners").get((req,res)=>
+{
+    var todaysTime = new Date().getTime()
+    console.log(todaysTime);
+    var todaysDate = new Date(todaysTime - (todaysTime%(1000*60*60*24)))
+    Offer.find({
+        date:{
+            $ne:todaysDate
+        }
+    })
+    .then((offers) => res.json(offers))
+    .catch((err) => res.status(400).json("Error"+err));
+});
+
 router.route("/add").post((req,res)=>
 {
     var todaysTime = new Date().getTime()

@@ -115,10 +115,10 @@ function AdminShowAllNormalOffers(props)
                         <p style={{margin:"25px 0px"}}>Rs {offer.price}</p>
                     </div>
                     <div className="offerList-item-discount col-1">
-                        <p style={{margin:"25px 0px"}}>{offer.discount}%</p>
+                        <p style={{margin:"25px 0px"}}>{Math.ceil(((offer.price-offer.retailPrice)/offer.price)*100)}%</p>
                     </div>
                     <div className="offerList-item-price col-1">
-                        <p style={{margin:"25px 0px"}}>Rs {Math.ceil(((100-offer.discount)/100)*offer.price)}</p>
+                        <p style={{margin:"25px 0px"}}>Rs {offer.retailPrice}</p>
                     </div>
                     <div className="offerList-item-status col-1">
                         <p style={{margin:"25px 0px"}}>

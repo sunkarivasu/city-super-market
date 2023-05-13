@@ -19,10 +19,10 @@ function AdminAddNormalOffer(props)
         productName:"",
         description:"",
         image:"",
-        discount:"",
+        retailPrice:"",
         price:"",
         priceErr:"init",
-        discountErr:"init",
+        retailPriceErr:"init",
         descriptionErr:"init",
         productNameErr:"init",
         imageErr:"init"
@@ -52,7 +52,7 @@ function AdminAddNormalOffer(props)
     function validate()
     {
         console.log(form,imageFileUrl);
-        if (form.productNameErr==""  && form.discountErr=="" && form.priceErr=="" && form.descriptionErr=="" && imageFileUrl)
+        if (form.productNameErr==""  && form.retailPriceErr=="" && form.priceErr=="" && form.descriptionErr=="" && imageFileUrl)
         {
             setCanBeSubmitted(true);
         }
@@ -98,13 +98,11 @@ function AdminAddNormalOffer(props)
         else
           setForm({...form,priceErr:"",price:value})          
         break
-      case "discount":
+      case "retailPrice":
         if(value.length==0)
-          setForm({...form,discountErr:"Enter Discount",discount:value})
-        else if(value<0 || value>100)
-          setForm({...form,discountErr:"Discount sholud be in between 0 and 100",discount:value})
+          setForm({...form, retailPriceErr:"Enter Retial Price",retailPrice:value})
         else
-          setForm({...form,discountErr:"",discount:value})
+          setForm({...form, retailPriceErr:"", retailPrice:value})
         break
       case "description":
         if(value.length==0)
@@ -117,7 +115,7 @@ function AdminAddNormalOffer(props)
 
   function handleChangeForm(event)
   {
-    if(event.target.id=="discount" || event.target.id=="quantity" || event.target.id=="price")
+    if(event.target.id=="retailPrice" || event.target.id=="quantity" || event.target.id=="price")
     {
       var l = event.target.value.length
       var lc = event.target.value.charAt(l-1)
@@ -199,14 +197,14 @@ function AdminAddNormalOffer(props)
             { form.imageErr.length>0 && form.imageErr!="init" && <p className="adminErr err">{form.imageErr}</p>}
           </div>
           <div className="form-group">
-            <label htmlFor="price">Price</label>
+            <label htmlFor="price">M.R.P</label>
             <input type="text" className="form-control price"  onChange={handleChangeForm} id="price" value={form.price}/>
             { form.priceErr.length>0 && form.priceErr!="init" && <p className="adminErr err">{form.priceErr}</p>}
           </div>
           <div className="form-group">
-            <label htmlFor="productDiscount">Discount</label>
-            <input type="text" className="form-control productDiscount"  onChange={handleChangeForm} id="discount" value={form.discount}/>
-            { form.discountErr.length>0 && form.discountErr!="init" &&  <p className="adminErr err">{form.discountErr}</p>}
+            <label htmlFor="productRetailPrice">Retial Price</label>
+            <input type="text" className="form-control productRetialPrice"  onChange={handleChangeForm} id="retailPrice" value={form.retailPrice}/>
+            { form.retailPriceErr.length>0 && form.retailPriceErr!="init" &&  <p className="adminErr err">{form.retailPriceErr}</p>}
           </div>
           
           <div className="form-group">

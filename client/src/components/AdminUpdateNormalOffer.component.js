@@ -15,10 +15,10 @@ function AdminUpdateNormalOffer(props)
     productName:"",
     description:"",
     image:"",
-    discount:"",
+    retailPrice:"",
     price:"",
     priceErr:"",
-    discountErr:"",
+    retailPriceErr:"",
     descriptionErr:"",
     productNameErr:"",
     imageErr:""
@@ -49,7 +49,7 @@ function AdminUpdateNormalOffer(props)
 
     function validate()
     {
-      if (form.productNameErr=="" && form.priceErr=="" && form.discountErr=="" && form.descriptionErr=="" && imageFileUrl)
+      if (form.productNameErr=="" && form.priceErr=="" && form.retailPriceErr=="" && form.descriptionErr=="" && imageFileUrl)
       {
           console.log("can be submitted");
           setCanBeSubmitted(true);
@@ -144,13 +144,11 @@ function AdminUpdateNormalOffer(props)
         else
           setForm({...form,priceErr:"",price:value})          
         break
-      case "discount":
+      case "retailPrice":
         if(value.length==0)
-          setForm({...form,discountErr:"Enter Discount",discount:value})
-        else if(value<0 || value>100)
-          setForm({...form,discountErr:"Discount sholud be in between 0 and 100",discount:value})
+          setForm({...form,retailPriceErr:"Enter Retail Price",retailPrice:value})
         else
-          setForm({...form,discountErr:"",discount:value})
+          setForm({...form,retailPriceErr:"",retailPrice:value})
         break
       case "description":
         if(value.length==0)
@@ -163,7 +161,7 @@ function AdminUpdateNormalOffer(props)
   function handleChangeForm(event)
   {
     console.log(form);
-    if(event.target.id=="discount"|| event.target.id=="price")
+    if(event.target.id=="retailPrice"|| event.target.id=="price")
     {
       var l = event.target.value.length
       var lc = event.target.value.charAt(l-1)
@@ -226,9 +224,9 @@ function AdminUpdateNormalOffer(props)
             { form.priceErr.length>0 && form.priceErr!="init" && <p className="adminErr err">{form.priceErr}</p>}
           </div>
           <div className="form-group" >
-            <label for="productDiscount">Discount</label>
-            <input type="text" className="form-control productDiscount"  onChange={handleChangeForm} id="discount" value={form.discount}/>
-            { form.discountErr.length>0 && form.discountErr!="init" &&  <p className="adminErr err">{form.discountErr}</p>}
+            <label for="productRetailPrice">Retail Price</label>
+            <input type="text" className="form-control productRetailPrice"  onChange={handleChangeForm} id="retailPrice" value={form.retailPrice}/>
+            { form.retailPriceErr.length>0 && form.retailPriceErr!="init" &&  <p className="adminErr err">{form.retailPriceErr}</p>}
           </div>
           <div className="form-group" >
             <label for="productDescription">Description</label>

@@ -6,7 +6,7 @@ var normalOfferSchema = new mongoose.Schema(
         description:String,
         image:String,
         price:Number,
-        discount:Number,
+        retailPrice:Number,
         status:{
             type:String,
             default:"Active"

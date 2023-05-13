@@ -4,6 +4,13 @@ var NormalOffer = require("../models/normalOffer.model");
 
 router.route("/").get((req,res)=>
 {
+    NormalOffer.find({})
+    .then((offers) => res.json(offers))
+    .catch((err) => res.status(400).json("Error"+err));
+});
+
+router.route("/getActiveOffers").get((req,res)=>
+{
     NormalOffer.find({status:"Active"})
     .then((offers) => res.json(offers))
     .catch((err) => res.status(400).json("Error"+err));
@@ -16,7 +23,7 @@ router.route("/add").post((req,res)=>
         price:req.body.price,
         description:req.body.description,
         image:req.body.image,
-        discount:req.body.discount
+        retailPrice:req.body.retailPrice
     });
     console.log(newNormalOffer);
     newNormalOffer.save()
@@ -34,8 +41,8 @@ router.route("/idNo/:idNumber").get((req,res) =>
 
 router.route("/updateNormalOfferDetails/").put((req,res) =>
 {
-    console.log(req.body);
-    NormalOffer.findByIdAndUpdate(req.body._id,{productName:req.body.productName,price:req.body.price,image:req.body.image,discount:req.body.discount,description:req.body.description})
+    console.log("retail Price:",req.body.retailPrice);
+    NormalOffer.findByIdAndUpdate(req.body._id,{productName:req.body.productName,price:req.body.price,image:req.body.image,retailPrice:req.body.retailPrice,description:req.body.description})
         .then(() => {console.log("NormalOffer updated successfully");res.send({})})
         .catch((err) => {console.log("Error Occured While updating NormalOffer details");})
 });
