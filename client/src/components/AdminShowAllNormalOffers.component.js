@@ -21,8 +21,8 @@ function AdminShowAllNormalOffers(props)
         axios.get("/normalOffers/")
             .then((res) => {
                 console.log(res.data);
-                setNormalOffers(res.data.reverse())
-                setFilteredOffers(res.data.reverse())
+                setNormalOffers(res.data)
+                setFilteredOffers(res.data)
             })
             .catch((err) => console.log("Error Occured while fetching normal offers"))    
     }
@@ -101,7 +101,7 @@ function AdminShowAllNormalOffers(props)
         </div>
         <div className="subCategory-container">
             {filteredOffers?<div>
-                {filteredOffers.length?filteredOffers.map((offer) => {return <div className="productList-item row" id={offer._id}>
+                {filteredOffers.length?filteredOffers.slice(0).reverse().map((offer) => {return <div className="productList-item row" id={offer._id}>
                     <div className="offerList-item-img col-1">
                         <img src={offer.image} style={{width:"80px",height:"80px"}}/>
                     </div>
