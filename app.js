@@ -22,7 +22,7 @@ var config = require("./Paytm/config");
 const parseUrl = express.urlencoded({ extended: false });
 const parseJson = express.json({ extended: false });
 
-cron.schedule("40 16 * * *",() =>
+cron.schedule("27 03 * * *",() =>
 {
     mongoose.connect(process.env.URI,{useNewUrlParser:true},(err) =>{
     if(err)
