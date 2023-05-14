@@ -125,7 +125,7 @@ function OffersPage()
         var timeDiff = presentTime - declarationTime
         console.log({timeDiff});
         var hours = presentDate.getHours()
-        if(hours>winnerDeclarationHour && hours<24)
+        if(hours>=winnerDeclarationHour && hours<24)
         {
             if(timeDiff > 0 && timeDiff <= 22 * 1000)
             {
