@@ -23,7 +23,7 @@ var config = require("./Paytm/config");
 const parseUrl = express.urlencoded({ extended: false });
 const parseJson = express.json({ extended: false });
 
-cron.schedule("30 03 * * *",() =>
+cron.schedule("10 22 * * *",() =>
 {
         console.log("*************************************cron job started ***************************************");
         console.log("generating todays winner");
