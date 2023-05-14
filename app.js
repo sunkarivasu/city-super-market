@@ -11,6 +11,7 @@ var fs = require("fs");
 const cron = require("node-cron");
 var Offer = require("./models/offer.model");
 var OfferUser = require("./models/offerUser.model");
+var Constants = require("./constants")
 require("./config/passport");
 
 
@@ -138,13 +139,14 @@ mongoose.connect(process.env.URI,{useNewUrlParser:true},(err) =>{
 
 
 // for local connection
-// mongoose.connect("mongodb://localhost:27017/CitySuperMarketDB",function(err)
+// mongoose.connect("mongodb://127.0.0.1:27017/CitySuperMarketDB",function(err)
 // {
 //     if(err)
 //         console.log("error"+err);
 //     else
 //         console.log("connected");
 // });
+
 
 
 

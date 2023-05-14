@@ -141,7 +141,7 @@ function AdminShowAllOfferUsers(props)
                         <p style={{margin:"25px 0px"}}>{offerUser.endDate.slice(0,10)}</p>
                     </div>
                     <div className="offerList-item-status col-2">
-                        <p style={{margin:"25px 0px"}}>{offerUser.status}</p>
+                        <p style={{margin:"25px 0px"}}>.{offerUser.status}</p>
                     </div>
                     <div className="offerList-item-edit col-1">
                         <button className="btn btn-secondary productList-item-edit-btn" style={{margin:"25px 10px 25px 0px"}} id={offerUser._id} onClick={handleEditOfferUser}>Edit</button>
