@@ -378,6 +378,11 @@
 {
     padding-left: 0px;
     padding-right: 0px;
+    font-size: 18px;
+}
+
+.item-price{
+    font-size: 15px;
 }
 
 .csm-logo
@@ -401,4 +406,9 @@
 {
     max-width: 280px;
     margin: auto;
+}
+
+.winner-phoneNumber{
+    font-weight: 500;
+    font-size: 18px;
 }
