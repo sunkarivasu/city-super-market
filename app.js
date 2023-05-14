@@ -23,24 +23,20 @@ var config = require("./Paytm/config");
 const parseUrl = express.urlencoded({ extended: false });
 const parseJson = express.json({ extended: false });
 
-cron.schedule("40 16 * * *",() =>
+cron.schedule("22 03 * * *",() =>
 {
-    mongoose.connect(process.env.URI,{useNewUrlParser:true},(err) =>{
-    if(err)
-        console.log("Error while connecting to database:"+err);
-    else
-    {
-        console.log("conneted to database")
-        var presentDate = new Date();
-        var presentDateISO = new Date().toISOString();
-        console.log(presentDate,presentDateISO);
+        console.log("*************************************cron job started ***************************************");
+        console.log("generating todays winner");
+        var TodaysDate = new Date(new Date().getTime() + (1000 * 60 * 60 * 5.5));
+        var todaysTime = TodaysDate.getTime()
+        var today = new Date(todaysTime - (todaysTime%(1000 * 60 * 60 * 24))) 
         OfferUser.find(
             {
                 endDate:{
-                    $gte:presentDate
+                    $gte:today
                 },
                 startDate:{
-                    $lte:presentDate
+                    $lte:today
                 },
                 alreadyWinner:false
             }
@@ -58,14 +54,13 @@ cron.schedule("40 16 * * *",() =>
                 var winnerIndex = Math.floor(Math.random() * (numberOfUsers))
                 var winner = offerUsers[winnerIndex]
                 console.log("winner:",winner);
-                console.log("date:",presentDate);
-                var exactOffer;
-                var todayTime = new Date().getTime()
-                var startOfToday = new Date(todayTime - (todayTime%(1000*60*60*24)))
-                console.log({startOfToday});
+                console.log("date:",today);
+                // var todayTime = new Date().getTime()
+                // var startOfToday = new Date(todayTime - (todayTime%(1000*60*60*24)))
+                // console.log({startOfToday});
                 Offer.findOne(
                     {
-                        date:startOfToday,
+                        date:today,
                     }
                 )
                 .then((offer) =>
@@ -89,30 +84,35 @@ cron.schedule("40 16 * * *",() =>
                     else
                     {
                         //send message to admin & developer that winner is genderated
-                        Offer.findOneAndUpdate({date:startOfToday},{winnerName:winner.name,winnerPhoneNumber:winner.phoneNumber})
+                        Offer.findOneAndUpdate({date:today},{winnerName:winner.name,winnerPhoneNumber:winner.phoneNumber})
                         .then(() =>
                         {
                             OfferUser.findOneAndUpdate({
-                                   _id:winner._id 
+                                    _id:winner._id 
                             },{
                                 alreadyWinner:true
                             })
-                            .then((res) =>{
+                            .then((offerUser) =>{
                                 console.log("alreadyWinner attribute is set");
                                 console.log("winner generated successfully...");
+                                console.log("*************************************cron job ended ***************************************");
+                                // res.send({});
                             })
                             .catch((err) =>{
+                                // res.status(400).json("Error"+err);
                                 console.log("Error occured while setting alreadyWinner attribute..",err);
                             })
                         })
                         .catch((err) =>
                         {
+                            // res.status(400).json("Error"+err);
                             console.log("Error occured while generating winner...",err);
                         })
                     }
                 })
                 .catch((err) =>
                 {
+                    // res.status(400).json("Error"+err);
                     console.log("Error occured while generating winner...",err);
                 })
             }
@@ -120,14 +120,10 @@ cron.schedule("40 16 * * *",() =>
         })
         .catch((err) =>
         {
+            // res.status(400).json("Error"+err)
             console.log("Error occured while fetchnig offerUsers count",err);
         })
-        
-    }
-
-    
 });
-})
 
 // for remote connection
 mongoose.connect(process.env.URI,{useNewUrlParser:true},(err) =>{
@@ -146,7 +142,6 @@ mongoose.connect(process.env.URI,{useNewUrlParser:true},(err) =>{
 //     else
 //         console.log("connected");
 // });
-
 
 
 

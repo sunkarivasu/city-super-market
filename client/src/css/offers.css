@@ -412,3 +412,30 @@
     font-weight: 500;
     font-size: 18px;
 }
+
+.offerList-item-status{
+    display: inline-block;
+}
+
+
+.Active, .InActive{
+    position: absolute;
+    display: inline;
+    font-size: 90px;
+    top:-57px;
+    left:-5px
+    /* padding: 10px; */
+}
+
+.Active{
+    color: green;
+}
+
+.InActive{
+    color:red
+}
+
+.winner-phoneNumber{
+    font-weight: 500;
+    font-size: 18px;
+}
