@@ -15,10 +15,14 @@ router.route("/").get((req,res) => {
 
 router.route("/add").post((req,res)=>
 {
+    var date = new Date()
+    console.log("adding offerUser at",date);
     console.log(req.body);
     var today = new Date(new Date().getTime() + (1000 * 60 * 60 * 5.5));
+    console.log({today});
     var todaysTime = today.getTime();
-    var time = new Date().getHours()
+    var time = today.getHours()
+    var minutes = today.getMinutes()
     console.log({hours:time});
     var startDate = new Date(todaysTime - (todaysTime%(1000 * 60 * 60 * 24)))
     var noOfDays = 30
@@ -79,8 +83,9 @@ router.route("/updateOfferUserDetails/").put((req,res) =>
             else
             {
                 var today = new Date(new Date().getTime() + (1000 * 60 * 60 * 5.5));
+                console.log({today});
                 var todaysTime = today.getTime();
-                var time = new Date().getHours()
+                var time = today.getHours()
                 console.log({hours:time});
                 var newStartDate = new Date(todaysTime - (todaysTime%(1000 * 60 * 60 * 24)))
                 var noOfDays = 30

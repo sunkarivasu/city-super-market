@@ -23,10 +23,11 @@ var config = require("./Paytm/config");
 const parseUrl = express.urlencoded({ extended: false });
 const parseJson = express.json({ extended: false });
 
-cron.schedule("10 22 * * *",() =>
+cron.schedule("40 22 * * *",() =>
 {
+        var date = new Date();
         console.log("*************************************cron job started ***************************************");
-        console.log("generating todays winner");
+        console.log("generating todays winner at",date);
         var TodaysDate = new Date(new Date().getTime() + (1000 * 60 * 60 * 5.5));
         var todaysTime = TodaysDate.getTime()
         var today = new Date(todaysTime - (todaysTime%(1000 * 60 * 60 * 24))) 

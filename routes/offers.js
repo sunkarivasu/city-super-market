@@ -12,12 +12,13 @@ router.route("/").get((req,res)=>
 
 router.route("/previousWinners").get((req,res)=>
 {
+    var date = new Date();
     console.log("---------------------------------");
-    console.log("Fetching previous winner...");
+    console.log("Fetching previous winner... at", date);
     var today = new Date(new Date().getTime() + (1000 * 60 * 60 * 5.5))
     var todaysTime = today.getTime()
     console.log({today});
-    var hours = new Date().getHours()
+    var hours = today.getHours()
     console.log({hours});
     if(hours >= 17)
         var startDate = new Date(todaysTime - (todaysTime%(1000*60*60*24)) - (1000*60*60*24))
