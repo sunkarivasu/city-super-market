@@ -5,14 +5,18 @@ import { cssTransition, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 
-function AdminShowAllProducts(props)
+function AdminShowAllOffers(props)
 {
 
     var [offers,setOffers] = useState(null);
     var [filteredOffers,setFilteredOffers] = useState(null);
     var [phoneNumberFilter,setPhoneNumberFilter] = useState();
+    var [winnerGenerated,setWinnerGenerated] = useState(false);
     // var [productDeleted,setProductDeleted] = useState(false);
 
+    var today = new Date()
+    var presentDate = new Date(today.getTime() - (today.getTime()%(1000 * 60 * 60 *24)))
+    console.log({presentDate});
     useEffect(() => {
 
         axios.get("/offers/")
@@ -24,7 +28,22 @@ function AdminShowAllProducts(props)
             .catch((err) => console.log("Error Occured while fetching products"))    
 
         return () => {}
-    },[]);
+    },[winnerGenerated]);
+
+    function handleGenerateWinner(){
+        console.log("generating winner...");
+        axios.get("/offers/generateTodaysWinner")
+        .then((res) =>{
+            console.log(res.data);
+            console.log("winner generated..");
+            toast.success("winner generated successfully",{position:toast.POSITION.BOTTOM_CENTER});
+            setWinnerGenerated(true);
+        })
+        .catch((err) =>{
+            console.log("Error occured While generating winnner",err);
+            toast.error("winner generation failed",{position:toast.POSITION.BOTTOM_CENTER});
+        })
+    }
 
     function handleChangePhoneNumber(event)
     {
@@ -63,6 +82,9 @@ function AdminShowAllProducts(props)
             <div className="navbar-category">
                 <label style={{fontWeight:"500",fontSize:"1.1rem"}}>Phone Number</label>
                 <input type="text" className="subCategory-select phoneNumber-filter-input" value={phoneNumberFilter} onChange={handleChangePhoneNumber}></input>
+            </div>
+            <div className="navbar-category">
+                <button className="btn btn-secondary productList-item-delete-btn" onClick={handleGenerateWinner}>Generate Winnner</button>
             </div>
             
         </div>
@@ -110,7 +132,6 @@ function AdminShowAllProducts(props)
                     </div>
                     <div className="offerList-item-edit col-1">
                         <button className="btn btn-secondary productList-item-edit-btn" style={{margin:"25px 10px 25px 0px"}} id={offer._id} onClick={handleEditOffer}>Edit</button>
-                        {/* <button className="btn btn-secondary productList-item-delete-btn" style={{margin:"25px 0px"}} id={offer._id} onClick={handleDeleteOffer}>Delete</button> */}
                     </div>
                 </div>}):<div className="no-users-found-msg">No Offers found</div>}
             </div>:<div>Loading...</div>}
@@ -118,4 +139,4 @@ function AdminShowAllProducts(props)
     </div>
 }
 
-export default AdminShowAllProducts;
+export default AdminShowAllOffers;

@@ -16,15 +16,16 @@ router.route("/").get((req,res) => {
 router.route("/add").post((req,res)=>
 {
     console.log(req.body);
-    var today = new Date();
+    var today = new Date(new Date().getTime() + (1000 * 60 * 60 * 5.5));
     var todaysTime = today.getTime();
-    var time = today.getHours()
+    var time = new Date().getHours()
+    console.log({hours:time});
     var startDate = new Date(todaysTime - (todaysTime%(1000 * 60 * 60 * 24)))
     var noOfDays = 30
     if(req.body.noOfDays !== "")
         noOfDays = parseInt(req.body.noOfDays)
     console.log(time);
-    if(time>17)
+    if(time>=17)
     { 
         console.log({time});
         startDate = new Date(startDate.getTime() + (1000 * 60 * 60 * 24));
@@ -62,13 +63,13 @@ router.route("/updateOfferUserDetails/").put((req,res) =>
         OfferUser.findById(req.body._id)
         .then((offerUser) =>
         {
-            var presentDate = new Date();
+            var presentDate = new Date(new Date().getTime() + (1000 * 60 * 60 * 5.5));
             console.log(presentDate);
-            var time = new Date().getTime();
+            var time = new Date(new Date().getTime() + (1000 * 60 * 60 * 5.5)).getTime();
             console.log(time);
             console.log(offerUser.endDate.getTime());
             var endTime = offerUser.endDate.getTime()
-            if(time<endTime)
+            if(time<=endTime)
             {
                 console.log("only endDate has to be changed..",offerUser.endDate.getTime() + (parseInt(req.body.noOfDays)*24*60*60*1000));
                 var newEndDate =  new Date(offerUser.endDate.getTime() + (parseInt(req.body.noOfDays)*24*60*60*1000))
@@ -77,15 +78,16 @@ router.route("/updateOfferUserDetails/").put((req,res) =>
             }
             else
             {
-                var today = new Date();
+                var today = new Date(new Date().getTime() + (1000 * 60 * 60 * 5.5));
                 var todaysTime = today.getTime();
-                var time = today.getHours()
+                var time = new Date().getHours()
+                console.log({hours:time});
                 var newStartDate = new Date(todaysTime - (todaysTime%(1000 * 60 * 60 * 24)))
                 var noOfDays = 30
                 if(req.body.noOfDays !== "")
                     noOfDays = parseInt(req.body.noOfDays)
                 console.log(time);
-                if(time>17)
+                if(time>=17)
                 { 
                     console.log({time});
                     newStartDate = new Date(newStartDate.getTime() + (1000 * 60 * 60 * 24));

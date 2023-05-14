@@ -6,7 +6,7 @@ import HorizontalScrollMenu from 'react-horizontal-scrolling-menu';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import "../css/offers.css";
 import axios  from "axios";
-
+import constants from "../constants";
 
 
 function OffersPage()
@@ -22,6 +22,8 @@ function OffersPage()
         ...resetStage,
         'isNormal':true,
     }
+
+    var winnerDeclarationHour = constants['winnerDeclarationHour']
 
     // var globalUpdateTime;
 
@@ -113,13 +115,32 @@ function OffersPage()
     useEffect(() =>
     {
         var presentDate = new Date()
+        var presentTime = presentDate.getTime()
+        var declarationDate = new Date(presentDate - (presentDate % (1000 * 60 * 60 *24)) + (1000 * 60 * 60 * 17) - (1000 * 60 * 60 * 5.5))
+        var declarationTime = declarationDate.getTime()
         console.log({presentDate});
+        console.log({presentTime});
+        console.log({declarationTime});
+        console.log({declarationDate});
+        var timeDiff = presentTime - declarationTime
+        console.log({timeDiff});
         var hours = presentDate.getHours()
-        if(hours>=17 && hours<24)
+        if(hours>=winnerDeclarationHour && hours<24)
         {
-            setStage({...initialStage,'isDeclaring':true})
-            // setStage({...initialStage,'isNormal':true})
-            setDay("Today");
+            if(timeDiff > 0 && timeDiff <= 22 * 1000)
+            {
+                setStage({...initialStage,'isRunning':true})
+            }
+            else if(timeDiff > 0 && timeDiff <= (22 * 1000) + (1 * 60 * 1000))
+            {
+                setStage({...initialStage,'isShowing':true})
+            }
+            else
+            {
+                setStage({...initialStage,'isDeclaring':true})
+                // setStage({...initialStage,'isNormal':true})
+                setDay("Today")
+            }
         }
         else
         {
@@ -127,7 +148,7 @@ function OffersPage()
             // setStage({...initialStage,'isRunning':true})
             setDay("Yesterday");
         }
-        if(hours>=17)
+        if(hours>=winnerDeclarationHour)
         {
             var nextDate = new Date(presentDate.getTime() + (24 * 60 * 60 * 1000))
             var nextDate = new Date(nextDate.getFullYear(),nextDate.getMonth(),nextDate.getDate(),17)
@@ -212,6 +233,7 @@ function OffersPage()
         {
             axios.get("/offers/getTodaysWinner")
             .then((res)=>{
+                console.log(res.data);
                 setGeneratedWinnner(res.data)
             })
             .catch((err)=>{
@@ -244,8 +266,8 @@ function OffersPage()
             setTimeout(()=>
             {
                 setStage({...resetStage,"isShowing":false,"isDeclaring":true})
-            },10000)
-            // },10*60*1000)
+            // },10000)
+            },1*60*1000)
         }
     },[stage])
 
@@ -265,59 +287,30 @@ function OffersPage()
                 </div>
                 <div className="normal-offers-container">
                 <h5>Special offers only for you</h5>
-                <div id="offers-carousel carouselExampleControls" className="carousel slide" data-ride="carousel">
+                <div id="offer-carousel" className="carousel slide" data-ride="carousel">
                         <div className="carousel-inner">
-                            {normalOffers && normalOffers.map((offer,index) =>
+                            {normalOffers && normalOffers.slice(0).reverse().map((offer,index) =>
                                 {
                                     console.log(offer);
                                     return <div className={index == 0?"carousel-item active":"carousel-item"} key={index}>
                                         <OfferComponent offer={offer}/>
                                     </div>
-                                    // return <div className="normal-offer">
-                                    //     <div className="offer-image">
-                                    //         <img src={offer.image}/>
-                                    //     </div>
-                                    //     <div className="offer-productName">
-                                    //         <p>{offer.productName}</p>
-                                    //     </div>
-                                    //     <div className="offer-mrp">
-                                    //         <p>{offer.price}</p>
-                                    //     </div>
-                                    // </div>
                                 })
                             }
-                            {/* {winnersList.slice(0).reverse().map((winner,index) =>{
-                                if(index == 0)
-                                {
-                                    return <></>
-                                }
-                                else if (index == 1)
-                                {
-                                    return <div className="carousel-item active">
-                                    <WinnerComponent winner={winnersList[1]}/>
-                                </div>
-                                }
-                                else
-                                {
-                                    return <div className="carousel-item" key={index}>
-                                    <WinnerComponent winner={winner}/>
-                                    </div>
-                                }
-                                
-                            })} */}
                         </div>  
-                        <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <a className="carousel-control-prev"  href="#offer-carousel" role="button" data-slide="prev">
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span className="sr-only">Previous</span>
                         </a>
-                        <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <a className="carousel-control-next"  href="#offer-carousel" role="button" data-slide="next">
                         <span className="carousel-control-next-icon" aria-hidden="true"></span>
                             <span className="sr-only">Next</span>
                         </a>
                     </div>
                 </div>
                 {stage['isDeclaring']?
-                previousWinner && <CongratulationsContainer winnerName={previousWinner.winnerName}/>
+                // previousWinner && <CongratulationsContainer winnerName={previousWinner.winnerName}/>
+                <></>
                 // 
                 :
                     <div className="timmer">
@@ -344,51 +337,35 @@ function OffersPage()
                 </div>
                 <div className="winner-container">
                     <h5 className="section-heading">{day}'s Winner</h5>
-                    <WinnerComponent winner={previousWinner}/>
+                    <WinnerComponent winner={previousWinner} singleDay={true}/>
                 </div>
                 <div className="winner-list-container">
                     <h5 className="section-heading">Previous Winners</h5>
-                    {<div id="previous-winners-carousel carouselExampleControls" className="carousel slide" data-ride="carousel">
+                    {<div id="previous-winners-carousel" className="carousel slide" data-ride="carousel">
                         <div className="carousel-inner">
-                           
                             {winnersList.slice(0).reverse().map((winner,index) =>{
-                                if(index == 0)
-                                {
-                                    return <></>
-                                }
-                                else if (index == 1)
-                                {
-                                    return <div className="carousel-item active">
-                                    <WinnerComponent winner={winner}/>
+                                    return <div className={index == 0?"carousel-item active":"carousel-item"}>
+                                    <WinnerComponent winner={winner} singleDay={false}/>
                                 </div>
-                                }
-                                else
-                                {
-                                    return <div className="carousel-item" key={index}>
-                                    <WinnerComponent winner={winner}/>
-                                    </div>
-                                } 
                             })}
                         </div>  
-                        <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <a className="carousel-control-prev" href="#previous-winners-carousel" role="button" data-slide="prev">
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span className="sr-only">Previous</span>
                         </a>
-                        <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <a className="carousel-control-next" href="#previous-winners-carousel" role="button" data-slide="next">
                         <span className="carousel-control-next-icon" aria-hidden="true"></span>
                             <span className="sr-only">Next</span>
                         </a>
                     </div>}
                 </div>
-            </div> }   
+            </div> }  
         </div>
 }
 
 
 function WinnerComponent(props)
 {
-    if(props.winner)
-        console.log(props.winner.winnerImage);
     return <div className="winner-component">
         <div className="winner-div">
             <div className="winner-image offer-product-image">
@@ -399,6 +376,7 @@ function WinnerComponent(props)
             </div>
             <div className="winner-details">
                 <div className="winner-name">{props.winner && props.winner.winnerName}</div>
+                {props.singleDay && props.winner && !props.winner.winnerImage && <div className="winner-phoneNumber">{props.winner && props.winner.winnerPhoneNumber}</div>}
                 <div className="winner-date">{props.winner && props.winner.date.slice(0,10)}</div>
             </div>
         </div>
@@ -418,13 +396,13 @@ function OfferComponent(props)
                 }
             </div>
             <div className="winner-details">
-                <div className="winner-name">{props.offer && props.offer.productName}</div>
+                <div className="product-name">{props.offer && props.offer.productName}</div>
+                <p className="product-description">{props.offer && props.offer.description}</p>
                 {/* <div className="winner-date">{props.offer && props.offer.price}</div> */}
                 <div className="price">
-                    <p className="item-priceAfterDiscount col-6">RS {props.offer && props.offer.retailPrice>0 && props.offer.retailPrice}</p>
+                    <p className="product-worth item-priceAfterDiscount col-6">RS {props.offer && props.offer.retailPrice>0 && props.offer.retailPrice}</p>
                     {props.offer &&  props.offer.price>0 && <p className="item-price col-6">RS {props.offer.price}</p>}
                 </div>
-                <p className="item-description">{props.offer && props.offer.description}</p>
             </div>
         </div>
      </div>
@@ -444,7 +422,6 @@ function Digits(props)
                 <p>{number}</p>
             </div>
         })}
-        
         </div>
     }
     else
