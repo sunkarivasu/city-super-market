@@ -23,7 +23,7 @@ var config = require("./Paytm/config");
 const parseUrl = express.urlencoded({ extended: false });
 const parseJson = express.json({ extended: false });
 
-cron.schedule("00 11 * * *",() =>
+cron.schedule("23 01 * * *",() =>
 {
         var date = new Date();
         console.log("*************************************cron job started ***************************************");
@@ -56,6 +56,8 @@ cron.schedule("00 11 * * *",() =>
                 var winner = offerUsers[winnerIndex]
                 console.log("winner:",winner);
                 console.log("date:",today);
+                console.log({winnerIndex});
+                console.log({numberOfUsers});
                 // var todayTime = new Date().getTime()
                 // var startOfToday = new Date(todayTime - (todayTime%(1000*60*60*24)))
                 // console.log({startOfToday});
@@ -94,6 +96,7 @@ cron.schedule("00 11 * * *",() =>
                                 alreadyWinner:true
                             })
                             .then((offerUser) =>{
+                                console.log({"generatedWinner":offerUser});
                                 console.log("alreadyWinner attribute is set");
                                 console.log("winner generated successfully...");
                                 console.log("*************************************cron job ended ***************************************");
@@ -127,22 +130,22 @@ cron.schedule("00 11 * * *",() =>
 });
 
 // for remote connection
-mongoose.connect(process.env.URI,{useNewUrlParser:true},(err) =>{
-    if(err)
-        console.log("Error while connecting to database:"+err);
-    else
-        console.log("conneted to database")
-});
+// mongoose.connect(process.env.URI,{useNewUrlParser:true},(err) =>{
+//     if(err)
+//         console.log("Error while connecting to database:"+err);
+//     else
+//         console.log("conneted to database")
+// });
 
 
 // for local connection
-// mongoose.connect("mongodb://127.0.0.1:27017/CitySuperMarketDB",function(err)
-// {
-//     if(err)
-//         console.log("error"+err);
-//     else
-//         console.log("connected");
-// });
+mongoose.connect("mongodb://127.0.0.1:27017/CitySuperMarketDB",function(err)
+{
+    if(err)
+        console.log("error"+err);
+    else
+        console.log("connected");
+});
 
 
 

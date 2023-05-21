@@ -24,6 +24,9 @@ function OffersPage()
     }
 
     var winnerDeclarationHour = constants['winnerDeclarationHour']
+    var winnerDeclarationMinutes = constants['winnerDeclarationMinutes']
+
+    // console.log(winnerDeclarationHour,winnerDeclarationMinutes);
 
     // var globalUpdateTime;
 
@@ -104,6 +107,7 @@ function OffersPage()
             {
                 console.log(res.data);
                 setPreviousWinner(res.data)
+                setGeneratedWinnner(res.data)
             })
             .catch((err) =>
             {
@@ -116,103 +120,158 @@ function OffersPage()
     {
         var presentDate = new Date()
         var presentTime = presentDate.getTime()
-        var declarationDate = new Date(presentDate - (presentDate % (1000 * 60 * 60 *24)) + (1000 * 60 * 60 * 17) - (1000 * 60 * 60 * 5.5))
+        var declarationDate = new Date(presentDate - (presentDate % (1000 * 60 * 60 *24)) + (1000 * 60 * 60 * winnerDeclarationHour) + (1000 * 60 * winnerDeclarationMinutes) - (1000 * 60 * 60 * 5.5))  
         var declarationTime = declarationDate.getTime()
         console.log({presentDate});
         console.log({presentTime});
         console.log({declarationTime});
         console.log({declarationDate});
         var timeDiff = presentTime - declarationTime
+        var [declarationHour,declarationMintues] = [declarationDate.getHours(),declarationDate.getMinutes()]
+        var [presentHour,presentMintues] = [presentDate.getHours(),presentDate.getMinutes()]
+        console.log(declarationHour,declarationMintues);
+        console.log(presentHour,presentMintues);
         console.log({timeDiff});
         var hours = presentDate.getHours()
-        if(hours>=winnerDeclarationHour && hours<24)
+        var minutes = presentDate.getMinutes()
+        if(hours >= winnerDeclarationHour && minutes >= winnerDeclarationMinutes)
         {
-            if(timeDiff > 0 && timeDiff <= 22 * 1000)
+            console.log({timeDiff});
+            // if(timeDiff > 0 && timeDiff <= 1 * 60 * 1000)
+            if(presentHour === declarationHour && declarationMintues === presentMintues)
             {
                 setStage({...initialStage,'isRunning':true})
-            }
-            else if(timeDiff > 0 && timeDiff <= (22 * 1000) + (1 * 60 * 1000))
-            {
-                setStage({...initialStage,'isShowing':true})
             }
             else
             {
                 setStage({...initialStage,'isDeclaring':true})
-                // setStage({...initialStage,'isNormal':true})
                 setDay("Today")
             }
         }
         else
         {
+            var nextDate = new Date(presentDate.getFullYear(),presentDate.getMonth(),presentDate.getDate(),winnerDeclarationHour,winnerDeclarationMinutes)
+            var diff = nextDate - presentDate;
+            var msec = diff;
+            var hh = Math.floor(msec / 1000 / 60 / 60);
+            msec -= hh * 1000 * 60 * 60;
+            var mm = Math.floor(msec / 1000 / 60);
+            msec -= mm * 1000 * 60;
+            var ss = Math.floor(msec / 1000);
+            msec -= ss * 1000;
+
+            var updateTime = setInterval(()=>
+            {
+                // console.log("updating time");
+                checkIsSpinningTime(hh,mm,ss);
+                if(ss == 0)
+                {
+                    mm -= 1
+                    ss = 59
+                }
+                else
+                {
+                    ss -= 1
+                }
+                if (mm == -1)
+                {
+                    hh -= 1 
+                    mm = 0
+                }
+                if(hh == -1)
+                {
+                    hh = 23
+                    mm = 59
+                }
+                setTimeRemaining(convertToTwoLetters(hh)+":"+(convertToTwoLetters(mm))+":"+(convertToTwoLetters(ss)));
+            },1000);
+
+            // globalUpdateTime = updateTime
+
+            var convertToTwoLetters = (time) => 
+            {
+                return time.toString().length==2?(time.toString()):("0"+time.toString()) 
+            }
+
+            var checkIsSpinningTime = () =>
+            {
+                if (hh == 0 && mm == 0 & ss == 0)
+                // if (true)
+                {
+                    console.log("its running time.. huhuhu..");
+                    clearInterval(updateTime);
+                    setStage({...resetStage,"isRunning":true});
+                    // setStage({...resetStage,"isWaiting":true});
+                    // setStage({...resetStage,"isShowing":true});
+                }
+            }
             setStage({...initialStage,'isNormal':true})
             // setStage({...initialStage,'isRunning':true})
             setDay("Yesterday");
         }
-        if(hours>=winnerDeclarationHour)
-        {
-            var nextDate = new Date(presentDate.getTime() + (24 * 60 * 60 * 1000))
-            var nextDate = new Date(nextDate.getFullYear(),nextDate.getMonth(),nextDate.getDate(),17)
-        }
-        else
-        {
-            var nextDate = new Date(presentDate.getFullYear(),presentDate.getMonth(),presentDate.getDate(),17)
-        }
+        // if(hours >= winnerDeclarationHour && minutes >= winnerDeclarationMinutes)
+        // {
+        //     var nextDate = new Date(presentDate.getTime() + (24 * 60 * 60 * 1000))
+        //     var nextDate = new Date(nextDate.getFullYear(),nextDate.getMonth(),nextDate.getDate(), winnerDeclarationHour, winnerDeclarationMinutes)
+        // }
+        // else
+        // {
+        //     var nextDate = new Date(presentDate.getFullYear(),presentDate.getMonth(),presentDate.getDate(),winnerDeclarationHour,winnerDeclarationMinutes)
+        //     var diff = nextDate - presentDate;
+        //     var msec = diff;
+        //     var hh = Math.floor(msec / 1000 / 60 / 60);
+        //     msec -= hh * 1000 * 60 * 60;
+        //     var mm = Math.floor(msec / 1000 / 60);
+        //     msec -= mm * 1000 * 60;
+        //     var ss = Math.floor(msec / 1000);
+        //     msec -= ss * 1000;
 
-        var diff = nextDate - presentDate;
+        //     var updateTime = setInterval(()=>
+        //     {
+        //         console.log("updating time");
+        //         checkIsSpinningTime(hh,mm,ss);
+        //         if(ss == 0)
+        //         {
+        //             mm -= 1
+        //             ss = 59
+        //         }
+        //         else
+        //         {
+        //             ss -= 1
+        //         }
+        //         if (mm == -1)
+        //         {
+        //             hh -= 1 
+        //             mm = 0
+        //         }
+        //         if(hh == -1)
+        //         {
+        //             hh = 23
+        //             mm = 59
+        //         }
+        //         setTimeRemaining(convertToTwoLetters(hh)+":"+(convertToTwoLetters(mm))+":"+(convertToTwoLetters(ss)));
+        //     },1000);
 
-        var msec = diff;
-        var hh = Math.floor(msec / 1000 / 60 / 60);
-        msec -= hh * 1000 * 60 * 60;
-        var mm = Math.floor(msec / 1000 / 60);
-        msec -= mm * 1000 * 60;
-        var ss = Math.floor(msec / 1000);
-        msec -= ss * 1000;
+        //     // globalUpdateTime = updateTime
 
-        var updateTime = setInterval(()=>
-        {
-            console.log("updating time");
-            checkIsSpinningTime(hh,mm,ss);
-            if(ss == 0)
-            {
-                mm -= 1
-                ss = 59
-            }
-            else
-            {
-                ss -= 1
-            }
-            if (mm == -1)
-            {
-                hh -= 1 
-                mm = 0
-            }
-            if(hh == -1)
-            {
-                hh = 23
-                mm = 59
-            }
-            setTimeRemaining(convertToTwoLetters(hh)+":"+(convertToTwoLetters(mm))+":"+(convertToTwoLetters(ss)));
-        },1000);
+        //     var convertToTwoLetters = (time) => 
+        //     {
+        //         return time.toString().length==2?(time.toString()):("0"+time.toString()) 
+        //     }
 
-        // globalUpdateTime = updateTime
-
-        var convertToTwoLetters = (time) => 
-        {
-            return time.toString().length==2?(time.toString()):("0"+time.toString()) 
-        }
-
-        var checkIsSpinningTime = () =>
-        {
-            if (hh == 0 && mm == 0 & ss == 0)
-            // if (true)
-            {
-                console.log("its running time.. huhuhu..");
-                clearInterval(updateTime);
-                setStage({...resetStage,"isRunning":true});
-                // setStage({...resetStage,"isWaiting":true});
-                // setStage({...resetStage,"isShowing":true});
-            }
-        }
+        //     var checkIsSpinningTime = () =>
+        //     {
+        //         if (hh == 0 && mm == 0 & ss == 0)
+        //         // if (true)
+        //         {
+        //             console.log("its running time.. huhuhu..");
+        //             clearInterval(updateTime);
+        //             setStage({...resetStage,"isRunning":true});
+        //             // setStage({...resetStage,"isWaiting":true});
+        //             // setStage({...resetStage,"isShowing":true});
+        //         }
+        //     }
+        // }
     },[])
 
     // clear interval if stage['isNormal'] == false
@@ -266,6 +325,7 @@ function OffersPage()
             setTimeout(()=>
             {
                 setStage({...resetStage,"isShowing":false,"isDeclaring":true})
+                setDay("Today")
             // },10000)
             },1*60*1000)
         }
@@ -291,7 +351,6 @@ function OffersPage()
                         <div className="carousel-inner">
                             {normalOffers && normalOffers.slice(0).reverse().map((offer,index) =>
                                 {
-                                    console.log(offer);
                                     return <div className={index == 0?"carousel-item active":"carousel-item"} key={index}>
                                         <OfferComponent offer={offer}/>
                                     </div>
@@ -309,8 +368,8 @@ function OffersPage()
                     </div>
                 </div>
                 {stage['isDeclaring']?
+                <ShowResult winner={generatedWinner}/>
                 // previousWinner && <CongratulationsContainer winnerName={previousWinner.winnerName}/>
-                <></>
                 // 
                 :
                     <div className="timmer">
@@ -327,9 +386,13 @@ function OffersPage()
                             {nextOffer ? <img src={nextOffer.image}/>:<BiImage className="no-image vertical-center"/>}
                         </div>
                         {nextOffer?<div className="offer-details">
-                            <p className="product-name">{nextOffer?nextOffer.productName:""}</p>
-                            <p className="product-description">{nextOffer?nextOffer.description:""}</p>
-                            <p className="product-worth">RS {nextOffer?nextOffer.worth:""}</p>
+                            <p className="product-name">{nextOffer.productName}</p>
+                            <p className="product-description">{nextOffer.description}</p>
+                            {/* <p className="product-worth">RS {nextOffer.worth}</p> */}
+                            <div className="price">
+                                <p className="product-worth item-priceAfterDiscount col-6">RS 1</p>
+                                {nextOffer &&  nextOffer.worth>0 && <p className="item-price col-6">RS {nextOffer.worth}</p>}
+                            </div>
                         </div>:<div>
                             <p className="product-name">No Offer</p>
                             </div>}
@@ -344,7 +407,7 @@ function OffersPage()
                     {<div id="previous-winners-carousel" className="carousel slide" data-ride="carousel">
                         <div className="carousel-inner">
                             {winnersList.slice(0).reverse().map((winner,index) =>{
-                                    return <div className={index == 0?"carousel-item active":"carousel-item"}>
+                                    return <div className={index == 0?"carousel-item active":"carousel-item"} key={index}>
                                     <WinnerComponent winner={winner} singleDay={false}/>
                                 </div>
                             })}
@@ -385,8 +448,6 @@ function WinnerComponent(props)
 
 function OfferComponent(props)
 {
-    if(props.offer)
-        console.log(props.offer.image);
     return <div className="winner-component">
         <div className="winner-div">
             <div className="winner-image offer-product-image">
@@ -529,7 +590,7 @@ function ShowResult(props)
             <p>Congratulations</p>
         </div>
         <div className="winner">
-            <p>{props.winner.winnerName}</p>
+            <p>{props.winner && props.winner.winnerName}</p>
         </div>
     </div>
 }
