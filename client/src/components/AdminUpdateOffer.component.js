@@ -249,7 +249,7 @@ function AdminUpdateOffer(props)
     {
         var uploadImagePromise = new Promise(function(resolve,reject) {
             console.log(image)
-            const childRef = ref(storage,form.productName+type+form.worth+"/image");
+            const childRef = ref(storage,form.date+form.productName+form.description+type+form.worth+(Math.random()*100).toString()+"/image");
             console.log({childRef});
 
             if(image === null)
