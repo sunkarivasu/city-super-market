@@ -129,7 +129,7 @@
     justify-content: center;
 }
 
-.phoneNumber
+.phoneNumberDigits
 {
     background-color: #C689C6;
     color: white;
@@ -439,3 +439,27 @@
     font-weight: 500;
     font-size: 18px;
 }
+
+.offer-user-request-form
+{
+    max-width: 300px;
+    margin: auto ;
+    text-align: left;
+    margin:20px auto;
+}
+
+.offerUserRequestForm-title
+{
+    font-size:1.5rem ;
+    font-weight:500;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.offerUserRequest-description
+{
+    opacity: 70%;
+    text-align: center;
+}
+
+    

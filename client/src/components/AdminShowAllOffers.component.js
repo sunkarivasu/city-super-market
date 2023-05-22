@@ -105,7 +105,7 @@ function AdminShowAllOffers(props)
         </div>
         <div className="subCategory-container">
             {filteredOffers?<div>
-                {filteredOffers.length>0?filteredOffers.map((offer) => {return <div className="productList-item row" id={offer._id}>
+                {filteredOffers.length>0?filteredOffers.slice(0).reverse().map((offer) => {return <div className="productList-item row" id={offer._id}>
                 <div className="offerList-item-date col-1">
                         <p style={{margin:"25px 0px"}}>{offer.date.slice(0,10)}</p>
                     </div>

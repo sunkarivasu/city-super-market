@@ -127,22 +127,22 @@ cron.schedule("40 22 * * *",() =>
 });
 
 // for remote connection
-mongoose.connect(process.env.URI,{useNewUrlParser:true},(err) =>{
-    if(err)
-        console.log("Error while connecting to database:"+err);
-    else
-        console.log("conneted to database")
-});
+// mongoose.connect(process.env.URI,{useNewUrlParser:true},(err) =>{
+//     if(err)
+//         console.log("Error while connecting to database:"+err);
+//     else
+//         console.log("conneted to database")
+// });
 
 
 // for local connection
-// mongoose.connect("mongodb://127.0.0.1:27017/CitySuperMarketDB",function(err)
-// {
-//     if(err)
-//         console.log("error"+err);
-//     else
-//         console.log("connected");
-// });
+mongoose.connect("mongodb://127.0.0.1:27017/CitySuperMarketDB",function(err)
+{
+    if(err)
+        console.log("error"+err);
+    else
+        console.log("connected");
+});
 
 
 
@@ -154,6 +154,8 @@ var paymentRouter = require("./routes/payments");
 var offerRouter = require("./routes/offers");
 var offerUserRouter = require("./routes/offerUsers");
 var normalOfferRouter = require("./routes/normalOffers");
+var userRequestRouter = require("./routes/userRequests");
+
 var multer = require("multer");
 const { param } = require("./routes/users");
 const { log } = require("async");
@@ -168,6 +170,7 @@ app.use("/payments",paymentRouter);
 app.use("/offers",offerRouter)
 app.use("/normalOffers",normalOfferRouter)
 app.use("/offerUsers",offerUserRouter)
+app.use("/userRequests",userRequestRouter)
 app.use(passport.initialize());
 
 if (process.env.NODE_ENV === 'production') {

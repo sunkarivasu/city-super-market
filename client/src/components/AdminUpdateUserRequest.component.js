@@ -7,26 +7,24 @@ import 'react-toastify/dist/ReactToastify.css';
 import {ref,uploadBytes,getDownloadURL} from "firebase/storage";
 import {storage} from "../firebase";
 
-function AdminUpdateOfferUser(props)
+function AdminUpdateUserRequest(props)
 {
 
   var intialState = 
   {
     name:"",
     phoneNumber:"",
-    startDate:"",
-    endDate:"",
     noOfDays:"",
     nameErr:"",
     phoneNumberErr:"",
+    noOfDaysErr:""
   }
 
-  var [form,setForm] = useState(intialState)
+  var [form,setForm] = useState(null)
   var [canBeSubmitted,setCanBeSubmitted] = useState(false);
   var [checkForm,setCheckForm] = useState(false)
   var [updateSuccess,setUpdateSuccess] = useState(false);
   var [updateFailure,setUpdateFailure] = useState(false);
-  var [update,setUpdate] = useState(false);
 
   if(updateSuccess)
     {
@@ -43,7 +41,7 @@ function AdminUpdateOfferUser(props)
     function validate()
     {
         console.log("validating...",form);
-      if (form.nameErr=="" && form.phoneNumberErr=="")
+      if (form.nameErr=="" && form.phoneNumberErr=="" && form.noOfDaysErr == '')
       {
           console.log("can be submitted");
           setCanBeSubmitted(true);
@@ -54,22 +52,22 @@ function AdminUpdateOfferUser(props)
       }
     }
 
-    function updateOfferUser()
+    function updateUserRequest()
     {
-        console.log("updating offerUser..");
-        axios.put("/offerUsers/updateOfferUserDetails",{...form,_id:props.offerUserId})
-                .then(() => {console.log("Offer updated by admin")
-                    setUpdateSuccess(true)
-                    setUpdateFailure(false)
-                    props.handleShowAllOfferUsers()
+        console.log("updating UserRequest..");
+        axios.put("/userRequests/updateUserRequest",{...form,_id:props.userRequestId})
+                .then(() => {console.log("User Request updated by admin")
+                    toast.success("User Request Updated successfully",{position:toast.POSITION.BOTTOM_CENTER});
+                    props.handleShowAllUserRequests()
                   })
                 .catch((err) => {console.log("Error:"+err)
-                setUpdateSuccess(false)
-                setUpdateFailure(true)});
+                toast.error("Something went wrong, please try again later",{position:toast.POSITION.BOTTOM_CENTER})
+                });
     }
     
   useEffect(() => {
-    axios.get("/offerUsers/idNo/"+props.offerUserId)
+    console.log({userRequestId:props.userRequestId});
+    axios.get("/userRequests/idNo/"+props.userRequestId)
       .then((res) => {
         setForm({...intialState,...res.data})
     console.log(res.data);
@@ -84,10 +82,10 @@ function AdminUpdateOfferUser(props)
     {
       case 'name':
         if(value.length<3)
-          setForm({...form,nameErr:"Winner Name should contain atleast 3 characters",name:value})
+          setForm({...form,nameErr:"Name should contain atleast 3 characters",name:value})
         else if (!value.match(/^[a-zA-Z ]{3,}$/gm))
         {
-          setForm({...form,nameErr:"Winner Name should only contain characters",name:value})
+          setForm({...form,nameErr:"Name should only contain characters",name:value})
         }
         else
           setForm({...form,nameErr:"",name:value})
@@ -97,6 +95,15 @@ function AdminUpdateOfferUser(props)
             setForm({...form,phoneNumberErr:"Phone Number should contain exactly 10 digits",phoneNumber:value})
         else
             setForm({...form,phoneNumber:value,phoneNumberErr:""})
+        break
+    case 'noOfDays':
+        if(value.length == 0)
+            setForm({...form,noOfDaysErr:"Enter Number of Days",noOfDays:value})
+        else if(value < 30)
+            setForm({...form,noOfDaysErr:"Minimum number of days is 30", noOfDays : value});
+        else
+            setForm({...form,noOfDaysErr:"",noOfDays:value})
+        break   
     }
 }
 
@@ -109,8 +116,11 @@ function AdminUpdateOfferUser(props)
       var lc = event.target.value.charAt(l-1)
       if(lc=='0' || lc=='1' || lc=='2' || lc=='3' || lc=='4' || lc=='5' || lc=='6' || lc=='7' || lc=='8' ||lc=='9')
       {
-        setForm({...form,[event.target.id]:event.target.value});
-        validateForm(event.target.id,event.target.value)
+        if(l <= 10)
+        {
+            setForm({...form,[event.target.id]:event.target.value});
+            validateForm(event.target.id,event.target.value)
+        }
       }
       else
       {
@@ -128,8 +138,8 @@ function AdminUpdateOfferUser(props)
 
 
     return(<div className="adminUpdateOfferUser">
-        <form className="admin-form adminUpdateOfferUser-form" onSubmit={(e) =>{e.preventDefault();}}>
-          <p className="adminForm-title">Update OfferUser</p>
+        {form && <form className="admin-form adminUpdateOfferUser-form" onSubmit={(e) =>{e.preventDefault();}}>
+          <p className="adminForm-title">Update User Request</p>
           <div className="form-group">
             <label for="productName">Name</label>
             <input type="text" className="form-control name" id="name" onChange={handleChangeForm} value={form.name} placeholder=""/>
@@ -141,24 +151,18 @@ function AdminUpdateOfferUser(props)
             { form.phoneNumberErr.length>0 && form.phoneNumberErr!="init" && <p className="adminErr err">{form.phoneNumberErr}</p>}
           </div>
           <div className="form-group" >
-            <label for="startDate">Start Date</label>
-            <input type="text" className="form-control startDate"  onChange={handleChangeForm} id="startDate" value={form.startDate.slice(0,10)} disabled/>
-          </div>
-          <div className="form-group" >
-            <label for="endDate">End Date</label>
-            <input type="text" className="form-control startDate"  onChange={handleChangeForm} id="endDate" value={form.endDate.slice(0,10)} disabled/>
-          </div>
-          <div className="form-group" >
-            <label for="endDate">Add Days</label>
+            <label for="endDate">Number of Days</label>
             <input type="text" className="form-control add-days"  onChange={handleChangeForm} id="noOfDays" value={form.noOfDays} />
+            { form.noOfDaysErr.length>0 && form.noOfDaysErr!="init" && <p className="adminErr err">{form.noOfDaysErr}</p>}
           </div>
-          { canBeSubmitted?<button type="button" className="btn btn-primary"  onClick={updateOfferUser}>Update</button>:<button type="button" className="btn btn-primary" disabled>Update</button>}
+          { canBeSubmitted?<button type="button" className="btn btn-primary"  onClick={updateUserRequest}>Update</button>:<button type="button" className="btn btn-primary" disabled>Update</button>}
           {updateSuccess && <p className="successMsg" >OfferUser Updated Successfully</p>}
           {updateFailure && <p className="failureMsg">Please Try Again</p>}   
       </form>
+        }
     </div>
     )
 };
 
-export default AdminUpdateOfferUser;
+export default AdminUpdateUserRequest;
 
