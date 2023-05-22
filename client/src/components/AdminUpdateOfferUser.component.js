@@ -87,14 +87,14 @@ function AdminUpdateOfferUser(props)
           setForm({...form,nameErr:"Winner Name should contain atleast 3 characters",name:value})
         else if (!value.match(/^[a-zA-Z ]{3,}$/gm))
         {
-          setForm({...form,nameErr:"Product Name should only contain characters",name:value})
+          setForm({...form,nameErr:"Winner Name should only contain characters",name:value})
         }
         else
           setForm({...form,nameErr:"",name:value})
         break
     case 'phoneNumber':
         if(value.length != 10)
-            setForm({...form,phoneNumberErr:"PhoneNumber should contain exactly 10 digits",phoneNumber:value})
+            setForm({...form,phoneNumberErr:"Phone Number should contain exactly 10 digits",phoneNumber:value})
         else
             setForm({...form,phoneNumber:value,phoneNumberErr:""})
     }

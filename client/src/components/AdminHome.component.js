@@ -12,9 +12,11 @@ import AdminShowAllProducts from "./AdminShowAllProducts.component";
 import AdminShowAllOffers from "./AdminShowAllOffers.component";
 import AdminShowAllNormalOffers from "./AdminShowAllNormalOffers.component";
 import AdminShowAllOfferUsers from "./AdminShowAllOfferUsers.component";
+import AdminShowAllUserRequests from "./AdminShowAllUserRequests.component";
 import AdminUpdateOffer from "./AdminUpdateOffer.component";
 import AdminUpdateOfferUser from "./AdminUpdateOfferUser.component";
 import AdminUpdateNormalOffer from "./AdminUpdateNormalOffer.component";
+import AdminUpdateUserRequest from "./AdminUpdateUserRequest.component";
 import AdminAddOffer from "./AdminAddOffer.component";
 import AdminAddNormalOffer from "./AdminAddNormalOffer.component";
 import AdminAddOfferUser from "./AdminAddOfferUser.component";
@@ -53,6 +55,10 @@ function AdminHome()
     var [showAddOfferUser,setShowAddOfferUser] = useState(false);
     var [showUpdateOfferUser,setShowUpdateOfferUser] = useState(false);
     var [editOfferUserId,setEditOfferUserId] = useState(false);
+
+    var [showAllUserRequests,setShowAllUserRequests] = useState(false);
+    var [showUpdateUserRequests,setShowUpdateUserRequests] = useState(false);
+    var [editUserRequestId,setEditUserRequestId] = useState(null);
 
     var navigate = useNavigate();
 
@@ -100,6 +106,22 @@ function AdminHome()
         setShowAddOfferUser(false);
         setShowUpdateOfferUser(false);
         setShowAllOfferUsers(false)
+        setShowAllUserRequests(false);
+        setShowUpdateUserRequests(false);
+    }
+
+    function handleUpdateUserRequest(id)
+    {
+        resetOptions()
+        console.log(id);
+        setEditUserRequestId(id)
+        setShowUpdateUserRequests(true);
+    }
+
+    function handleShowAllUserRequests()
+    {
+        resetOptions();
+        setShowAllUserRequests(true);
     }
 
     function handleShowAllProducts()
@@ -242,6 +264,8 @@ function AdminHome()
                         {showAllOfferUsers && <AdminShowAllOfferUsers handleAddOfferUser={handleAddOfferUser} handleEditOfferUser={handleUpdateOfferUser}/>}
                         {showAddOfferUser && <AdminAddOfferUser handleShowAllOfferUsers={handleShowAllOfferUsers}/>}
                         {showUpdateOfferUser && <AdminUpdateOfferUser offerUserId={editOfferUserId} handleShowAllOfferUsers={handleShowAllOfferUsers}/>}
+                        {showAllUserRequests && <AdminShowAllUserRequests handleEditUserRequest={handleUpdateUserRequest}/>}
+                        {showUpdateUserRequests && <AdminUpdateUserRequest  userRequestId={editUserRequestId} handleShowAllUserRequests={handleShowAllUserRequests}/>}
 
                     </div>
                 </div>
@@ -271,6 +295,9 @@ function AdminHome()
                         </li>
                         <li className="nav-item categoryDropDownMain">
                             <a className="nav-link admin-nav-link categoryDropDown dropDown" href="#" onClick={handleShowAllOfferUsers}>OfferUsers</a>
+                        </li>
+                        <li className="nav-item categoryDropDownMain">
+                            <a className="nav-link admin-nav-link categoryDropDown dropDown" href="#" onClick={handleShowAllUserRequests}>Requests</a>
                         </li>
                 </ul>)
     }
