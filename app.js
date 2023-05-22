@@ -127,22 +127,22 @@ cron.schedule("40 22 * * *",() =>
 });
 
 // for remote connection
-// mongoose.connect(process.env.URI,{useNewUrlParser:true},(err) =>{
-//     if(err)
-//         console.log("Error while connecting to database:"+err);
-//     else
-//         console.log("conneted to database")
-// });
+mongoose.connect(process.env.URI,{useNewUrlParser:true},(err) =>{
+    if(err)
+        console.log("Error while connecting to database:"+err);
+    else
+        console.log("conneted to database")
+});
 
 
 // for local connection
-mongoose.connect("mongodb://127.0.0.1:27017/CitySuperMarketDB",function(err)
-{
-    if(err)
-        console.log("error"+err);
-    else
-        console.log("connected");
-});
+// mongoose.connect("mongodb://127.0.0.1:27017/CitySuperMarketDB",function(err)
+// {
+//     if(err)
+//         console.log("error"+err);
+//     else
+//         console.log("connected");
+// });
 
 
 
