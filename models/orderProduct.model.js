@@ -1,12 +1,23 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-var orderProductSchema = new mongoose.Schema(
-    {
-        productId:mongoose.Schema.ObjectId,
-        quantity:Number,
-        orderQuantity:Number,
-    }
-);
+const orderProductSchema = new mongoose.Schema({
+    productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "product",
+        required: true
+    },
+    quantity: {
+        type: Number,
+        required: true,
+        min: 0
+    },
+    orderQuantity: {
+        type: Number,
+        required: true,
+        min: 0
+    },
+}, { timestamps: true });
 
-var OrderProduct = new mongoose.model("orderProduct",orderProductSchema);
+const OrderProduct = new mongoose.model("orderProduct", orderProductSchema);
+
 module.exports = OrderProduct;
