@@ -55,6 +55,10 @@ const productSchema = new mongoose.Schema({
             required: true,
             min: 0,
             default: 1
+        },
+        isSpecialOffer: {
+            type: Boolean,
+            default: false
         }
     }],
     quantityType: {
@@ -73,7 +77,12 @@ const productSchema = new mongoose.Schema({
         required: true,
         trim: true,
         enum: ["percent", "amount"]
-    }
+    },
+    isAvailable: {
+        type: Boolean,
+        default: true
+    },
+
 }, { timestamps: true });
 
 const Product = mongoose.model("product", productSchema);
