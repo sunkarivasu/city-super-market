@@ -17,15 +17,16 @@ function AdminLogin()
     var [checkForm,setCheckForm] = useState(true);
     var [disableLoginButton,setDisableLoginButton] = useState(true);
 
-    const toc=localStorage.getItem("token");
+    const  jwtToken=localStorage.getItem("token");
      useEffect(()=>{
-      var base64Payload = toc.split('.')[1];
+      var base64Payload = jwtToken.split('.')[1];
       var payload = Buffer.from(base64Payload, 'base64');
       if( payload.exp>Math.floor(Date.now()/1000))
       {
         navigate("../adminHome");
       }
-     },[navigate, toc])
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+     },[])
 
     function handleAdminIdChange(event)
     {
