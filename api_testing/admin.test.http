@@ -1,0 +1,22 @@
+@BASE_URI = http://localhost:9000/api/admin
+
+
+# # Admin Registration
+# POST {{BASE_URI}}/register
+# Content-Type: application/json
+
+# {
+#     "name": "Dhamareshwarakumar",
+#     "email": "damareshwarakumar@gmail.com",
+#     "password": "iamadmin@csm",
+#     "phoneNumber": 7661979943
+# }
+
+# # Admin Login
+# POST {{BASE_URI}}/login
+# Content-Type: application/json
+
+# {
+#     "email": "damareshwarakumar@gmail.com",
+#     "password": "iamadmin@csm"
+# }

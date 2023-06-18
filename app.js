@@ -22,15 +22,16 @@ PORT = process.env.PORT || 9000;
 
 
 // Routes
-app.use("/users", require("./routes/users"));
-app.use("/categories", require("./routes/categories"));
-app.use("/products", require("./routes/products"));
-app.use("/orders", require("./routes/orders"));
-app.use("/payments", require("./routes/payments"));
-app.use("/offers", require("./routes/offers"));
-app.use("/normalOffers", require("./routes/normalOffers"));
-app.use("/offerUsers", require("./routes/offerUsers"));
-app.use("/userRequests", require("./routes/userRequests"));
+app.use("/api/admin", require("./routes/admin"));
+app.use("/api/users", require("./routes/users"));
+app.use("/api/categories", require("./routes/categories"));
+app.use("/api/products", require("./routes/products"));
+app.use("/api/orders", require("./routes/orders"));
+app.use("/api/payments", require("./routes/payments"));
+app.use("/api/offers", require("./routes/offers"));
+app.use("/api/normalOffers", require("./routes/normalOffers"));
+app.use("/api/offerUsers", require("./routes/offerUsers"));
+app.use("/api/userRequests", require("./routes/userRequests"));
 
 // Cron Jobs
 require('./jobs/generateWinner');

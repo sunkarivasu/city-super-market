@@ -24,3 +24,13 @@
         -   Item Price
         -   Item Total Price
         -   Delete Item Button
+
+# API ENDPOINTS
+
+-   getCategories
+-   getTopTenCategoryItems
+-   getAllItemsByCategory with pagination
+-   getAllCartItemsByUser
+
+-   login
+-   register
