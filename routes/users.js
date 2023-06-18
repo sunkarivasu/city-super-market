@@ -169,43 +169,6 @@ router.post(
 );
 
 
-router.route("/getUserDetailsById/:userId").get((req, res) => {
-    User.findById({ _id: req.params.userId })
-        .then((user) => res.json(user))
-        .catch((err) => res.json(400).json("Error:" + err))
-})
-
-router.route("getuserId/:userId").get(passport.authenticate("jwt", { session: false }), (req, res) => {
-    User.findOne({ _id: req.params.userId })
-        .then((user) => res.json(user))
-        .catch((err) => { res.status(400).json("Error:" + err) });
-})
-
-router.route("/checkEmailId/:emailId").get((req, res) => {
-    console.log(req.params.emailId);
-    User.findOne({ emailId: req.params.emailId })
-        .then((user) => {
-            console.log(user);
-            if (user) {
-                res.send({
-                    msg: "EmailId Already exists",
-                    success: false,
-                    err: null
-                })
-            }
-            else {
-                res.send({
-                    msg: "",
-                    success: true,
-                    err: null
-                })
-            }
-        })
-        .catch((err) => {
-            res.json(console.log("Error:" + err));
-        })
-})
-
 
 
 router.route("/addToCart/:userId/:itemId").post((req, res) => {
