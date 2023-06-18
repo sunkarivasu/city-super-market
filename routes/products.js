@@ -101,22 +101,40 @@ router.post(
     }
 );
 
-router.route("/add").post((req, res) => {
-    var newProduct = new Product({
-        category: req.body.category,
-        subCategory: req.body.subCategory,
-        image: req.body.image,
-        brand: req.body.brand,
-        price: req.body.price,
-        description: req.body.description,
-        discount: req.body.discount,
-        quantity: req.body.quantity
-    });
+// route    :: GET /api/products/topProductsByCategory/:count
+// desc     :: Get top ${count} products by category
+// access   :: Public
+router.get(
+    '/topProductsByCategory/:count',
+    (req, res) => {
+        Category.find()
+            .then(async categories => {
+                if (!categories.length) {
+                    return res.status(404).json({ msg: "Categories not found" });
+                }
 
-    newProduct.save()
-        .then(() => res.json("product added"))
-        .catch((err) => res.status(400).json("Error" + err));
-});
+                let topProductsByCategory = [];
+
+                for (let i = 0; i < categories.length; i++) {
+                    const products = await Product.find({ categoryId: categories[i]._id }).limit(parseInt(req.params.count))
+
+                    if (products.length) {
+                        topProductsByCategory.push({
+                            category: categories[i].categoryName,
+                            products: products
+                        });
+                    }
+                };
+
+                return res.json({ msg: "Top products by category fetched successfully", data: topProductsByCategory });
+            })
+            .catch(err => {
+                console.error(`⚡[server][productRoute][get /topProductsByCategory/:count] Error :: ${err}`);
+                return res.status(500).json({ msg: "Internal server error" });
+            });
+    }
+);
+
 
 router.route("/category/:categoryName").get((req, res) => {
     // console.log(req.params.categoryName);
@@ -126,25 +144,6 @@ router.route("/category/:categoryName").get((req, res) => {
 });
 
 
-router.route("/noOfProducts/:number").get((req, res) => {
-    Category.find({})
-        .then(async (categoryResult) => {
-            var categoryTopList = [];
-            // console.log(categoryTopList);
-            for (var i = 0; i < categoryResult.length; i++) {
-                await Product.find({ category: categoryResult[i].categoryName }).limit(req.params.number)
-                    .then((productResult) => {
-                        if (productResult.length)
-                            categoryTopList.push(productResult)
-                        // console.log("pushed")
-                    })
-                    .catch((err) => { console.log(err) });
-            }
-            // console.log(categoryTopList);
-            res.json(categoryTopList);
-        })
-        .catch((err) => { console.log(err) })
-});
 
 router.route("/searchProductDetailsToUpdate/:category/:subCategory/:productName").get((req, res) => {
     Product.find({ category: req.params.category, subCategory: req.params.subCategory, brand: req.params.productName })

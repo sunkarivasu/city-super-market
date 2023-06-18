@@ -35,3 +35,6 @@
 #     ],
 #     "quantityType": "unit"
 # }
+
+# Get Products by Category
+GET {{BASE_URL}}/topProductsByCategory/2
