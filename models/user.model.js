@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -8,7 +10,7 @@ const userSchema = new mongoose.Schema({
         maxlength: 255,
         trim: true
     },
-    password: {
+    encryPassword: {
         type: String,
         required: true,
         trim: true
@@ -18,14 +20,16 @@ const userSchema = new mongoose.Schema({
         required: false,
         minlength: 4,
         maxlength: 255,
-        trim: true
+        trim: true,
+        unique: true
     },
     phoneNumber: {
         type: String,
         required: true,
         minlength: 10,
         maxlength: 10,
-        trim: true
+        trim: true,
+        unique: true
     },
     address: [{
         doorNumber: {
@@ -75,8 +79,33 @@ const userSchema = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false
-    }
+    },
+    salt: String,
 }, { timestamps: true });
+
+userSchema.methods = {
+    securePassword: function (plainPassword) {
+        if (!plainPassword) return '';
+        try {
+            return crypto.createHmac('sha256', this.salt)
+                .update(plainPassword)
+                .digest('hex');
+        } catch (err) {
+            return '';
+        }
+    },
+    authenticate: function (plainPassword) {
+        // TODO: Check for Timing Attack
+        console.log(plainPassword, this.securePassword(plainPassword), this.encryPassword, this.securePassword(plainPassword) === this.encryPassword);
+        return this.securePassword(plainPassword) === this.encryPassword;
+    }
+};
+
+userSchema.virtual("password")
+    .set(function (plainPassword) {
+        this.salt = uuidv4();
+        this.encryPassword = this.securePassword(plainPassword);
+    });
 
 const User = mongoose.model("user", userSchema);
 
