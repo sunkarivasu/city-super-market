@@ -25,7 +25,7 @@ import {isEmpty} from "../src/utils/validation";
 
 
 function App() {
-if(isEmpty(localStorage.getItem("token"))){
+if(!isEmpty(localStorage.getItem("token"))){
   axios.defaults.headers.common["Authorization"] =localStorage.getItem("token");
 }
 
