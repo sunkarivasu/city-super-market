@@ -1,0 +1,26 @@
+@BASE_URL = http://localhost:9000/api/categories
+
+@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGUyMmVmYjBiOTRjYzRlODMzN2JhYiIsIm5hbWUiOiJEaGFtYXJlc2h3YXJha3VtYXIiLCJlbWFpbCI6ImRhbWFyZXNod2FyYWt1bWFyQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsInBob25lTnVtYmVyIjoiNzY2MTk3OTk0MyIsImlhdCI6MTY4NzA4ODk1OCwiZXhwIjoxNjg3MDkyNTU4fQ.sLMfb2QPbXzVziJ-jNuXMVFTR_qSIOzeb2Oa-m-parE
+
+# Get All Categories
+GET {{BASE_URL}}/
+
+
+# # Get Category By Id
+# GET {{BASE_URL}}/62449f2512e142682804fe2e
+
+# # Add Category
+# POST {{BASE_URL}}/
+# Authorization: {{TOKEN}}
+# Content-Type: application/json
+
+# {
+#     "categoryName": "Grocery",
+#     "categoryImage": "https://firebasestorage.googleapis.com/v0/b/city-super-market.appspot.com/o/grocery%2Fimage?alt=media&token=60d4ad26-7515-4d12-9bf8-b81957a01060",
+#     "subCategoryList": [
+#       "soaps and detergents",
+#       "Coffee and tea powders",
+#       "floor and bathroom cleaning items",
+#       "Water bottles "
+#     ]
+# }

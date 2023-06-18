@@ -1,10 +1,10 @@
 @BASE_URI = http://localhost:9000/api
 
-@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGUzMTgzOTU4NzVmMzRhMDBhMjBjZiIsIm5hbWUiOiJEaGFtcmVzaHdhcmFrdW1hciIsImVtYWlsIjoiIiwiaXNBZG1pbiI6ZmFsc2UsInBob25lTnVtYmVyIjoiNzY2MTk3OTk0MiIsImlhdCI6MTY4NzA3ODgwNywiZXhwIjoxNjg3MDgyNDA3fQ.4Xg8wslUGesxGeWTRp-wYK_-6Yl4Y1i8WFvxEtYV3Nc
+@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGUyMmVmYjBiOTRjYzRlODMzN2JhYiIsIm5hbWUiOiJEaGFtYXJlc2h3YXJha3VtYXIiLCJlbWFpbCI6ImRhbWFyZXNod2FyYWt1bWFyQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsInBob25lTnVtYmVyIjoiNzY2MTk3OTk0MyIsImlhdCI6MTY4NzA4NDQ2OSwiZXhwIjoxNjg3MDg4MDY5fQ.qCrFo4M9rFBTvQTZAh0FPUaA48r_DieuoKFWywUnpyg
 
-# # Get all users
-# GET {{BASE_URI}}/users
-# Authorization: {{TOKEN}}
+# Get all users
+GET {{BASE_URI}}/users
+Authorization: {{TOKEN}}
 
 # # Get user by id
 # GET {{BASE_URI}}/users/648e318395875f34a00a20cf
