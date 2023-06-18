@@ -1,3 +1,4 @@
+import axios from "axios";
 import Header from "./components/Header.component.js";
 import { BrowserRouter as Router ,Route,Routes} from "react-router-dom";
 import Home from "./components/Home.component";
@@ -18,11 +19,16 @@ import CheckOutPage from "./components/CheckOut.component.js";
 import PaymentCheckOutPage from "./components/PaymentCheckOut.component.js";
 import PaymentSuccessPage from "./components/PaymentSuccess.component.js"
 import PaymentFailurePage from "./components/PaymentFailure.component.js"
-import OffersPage from "./components/Offers.component.js"
+import OffersPage from "./components/Offers.component.js";
+import {isEmpty} from "../src/utils/validation";
 
 
 
 function App() {
+if(isEmpty(localStorage.getItem("token"))){
+  axios.defaults.headers.common["Authorization"] =localStorage.getItem("token");
+}
+
   return(
         <Router>
           <div className="main-container">

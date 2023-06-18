@@ -2,6 +2,9 @@ import axios from "axios";
 import React,{useEffect, useState} from "react";
 import "../css/AdminLoginStylesheet.css";
 import {useNavigate} from "react-router-dom";
+import {isEmpty} from '../utils/validation';
+
+var Buffer = require('buffer/').Buffer
 
 
 function AdminLogin()
@@ -14,13 +17,15 @@ function AdminLogin()
     var [checkForm,setCheckForm] = useState(true);
     var [disableLoginButton,setDisableLoginButton] = useState(true);
 
-    useEffect(()=>
-    {
-      localStorage.removeItem("token");
-      localStorage.removeItem("admin");
-      localStorage.removeItem("user");
-    },[]);
-  
+    const toc=localStorage.getItem("token");
+     useEffect(()=>{
+      var base64Payload = toc.split('.')[1];
+      var payload = Buffer.from(base64Payload, 'base64');
+      if( payload.exp>Math.floor(Date.now()/1000))
+      {
+        navigate("../adminHome");
+      }
+     },[navigate, toc])
 
     function handleAdminIdChange(event)
     {
@@ -62,17 +67,17 @@ function AdminLogin()
       event.preventDefault();
       var admin = 
       {
-        emailId:adminId,
+        email:adminId,
         password:adminPassword
       }
-      axios.post("/users/loginAdmin",admin)
+      axios.post("/api/admin/login",admin)
       .then((res)=>
       {
-        if(res.data.success==true)
+        if(!isEmpty(res.data.data.token))
         {
-          //console.log("login success");
-          localStorage.setItem("token",res.data.token);
-          localStorage.setItem("admin",res.data.admin);
+          console.log("login success");
+          localStorage.setItem("token",res.data.data.token);
+          axios.defaults.headers.common["Authorization"] =res.data.data.token;
           navigate("../adminHome");
         }
         else
