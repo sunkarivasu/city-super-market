@@ -22,8 +22,6 @@ import PaymentFailurePage from "./components/PaymentFailure.component.js"
 import OffersPage from "./components/Offers.component.js";
 import {isEmpty} from "../src/utils/validation";
 
-
-
 function App() {
 if(!isEmpty(localStorage.getItem("token"))){
   axios.defaults.headers.common["Authorization"] =localStorage.getItem("token");

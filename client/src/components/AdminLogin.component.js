@@ -19,14 +19,14 @@ function AdminLogin()
 
     const  jwtToken=localStorage.getItem("token");
      useEffect(()=>{
-      var base64Payload = jwtToken.split('.')[1];
-      var payload = Buffer.from(base64Payload, 'base64');
-      if( payload.exp>Math.floor(Date.now()/1000))
-      {
-        navigate("../adminHome");
-      }
-     // eslint-disable-next-line react-hooks/exhaustive-deps
-     },[])
+      if(!isEmpty(jwtToken)){    
+        var payload = JSON.parse(Buffer.from( jwtToken.split('.')[1], 'base64').toString())
+        if( payload.exp>Math.floor(Date.now()/1000))
+        {
+          navigate("../adminHome");
+        }
+    }
+     },[jwtToken,navigate])
 
     function handleAdminIdChange(event)
     {
