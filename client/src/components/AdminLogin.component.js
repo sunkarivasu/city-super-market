@@ -71,6 +71,7 @@ function AdminLogin()
         email:adminId,
         password:adminPassword
       }
+      // navigate("../adminHome");
       axios.post("/api/admin/login",admin)
       .then((res)=>
       {

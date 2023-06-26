@@ -4,7 +4,7 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
 // import validations
-const { checkIsAdmin, validateUserRegister, validateUserLogin, checkIsAdminOrSelf } = require('../validations/user.validation');
+const { checkIsAdmin, validateUserRegister, validateUserLogin, checkIsAdminOrSelf,checkIsSelf } = require('../validations/user.validation');
 
 // import models
 const User = require("../models/user.model");
@@ -171,7 +171,7 @@ router.post(
 
 
 
-router.route("/addToCart/:userId/:itemId").post((req, res) => {
+router.post('/addToCart/:userId/:itemId',checkIsSelf,(req, res) => {
     User.updateOne({ _id: req.params.userId }, { $push: { cartItems: { productId: req.params.itemId, orderQuantity: 1 } } })
         .then(() => { res.json("product added to cart") })
         .catch((err) => { res.status(400).json(err) })

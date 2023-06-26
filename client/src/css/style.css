@@ -1033,7 +1033,7 @@ body{
 .admin-nav-link
 {
     padding:0px;
-    margin:20px 30px;
+    margin:0px 10px;
 }
 
 .profile-image
@@ -1377,7 +1377,7 @@ body{
 
 .productList-titles
 {
-    margin: 30px 10px 0px 10px;
+    margin: 30px 10px 5px 10px;
     /* display: flex;
     justify-content: space-around; */
 }

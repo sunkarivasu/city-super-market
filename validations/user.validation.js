@@ -92,9 +92,18 @@ const checkIsAdminOrSelf = (req, res, next) => {
     }
 };
 
+const checkIsSelf =()=>{
+    if (req.user.id === req.params.id) {
+        next();
+    } else {
+        res.status(401).json({ msg: "Unauthorized" });
+    }
+}
+
 module.exports = {
     checkIsAdmin,
     validateUserRegister,
     validateUserLogin,
-    checkIsAdminOrSelf
+    checkIsAdminOrSelf,
+    checkIsSelf
 };

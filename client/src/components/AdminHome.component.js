@@ -21,6 +21,7 @@ import AdminAddOffer from "./AdminAddOffer.component";
 import AdminAddNormalOffer from "./AdminAddNormalOffer.component";
 import AdminAddOfferUser from "./AdminAddOfferUser.component";
 import axios from "axios";
+import AdminShowAllOrders from "./AdminShowAllOrder.component";
 
 
 function AdminHome()
@@ -59,6 +60,7 @@ function AdminHome()
     var [showAllUserRequests,setShowAllUserRequests] = useState(false);
     var [showUpdateUserRequests,setShowUpdateUserRequests] = useState(false);
     var [editUserRequestId,setEditUserRequestId] = useState(null);
+    var [showAllOrders,setShowAllOrders]=useState(false);
 
     var navigate = useNavigate();
 
@@ -108,6 +110,7 @@ function AdminHome()
         setShowAllOfferUsers(false)
         setShowAllUserRequests(false);
         setShowUpdateUserRequests(false);
+        setShowAllOrders(false);
     }
 
     function handleUpdateUserRequest(id)
@@ -134,6 +137,11 @@ function AdminHome()
     {
         resetOptions()
         setShowAllOffers(true);
+    }
+
+    function handleShowAllOrders(){
+        resetOptions()
+        setShowAllOrders(true);
     }
 
     function handleShowAllOfferUsers()
@@ -266,6 +274,7 @@ function AdminHome()
                         {showUpdateOfferUser && <AdminUpdateOfferUser offerUserId={editOfferUserId} handleShowAllOfferUsers={handleShowAllOfferUsers}/>}
                         {showAllUserRequests && <AdminShowAllUserRequests handleEditUserRequest={handleUpdateUserRequest}/>}
                         {showUpdateUserRequests && <AdminUpdateUserRequest  userRequestId={editUserRequestId} handleShowAllUserRequests={handleShowAllUserRequests}/>}
+                        {showAllOrders&& <AdminShowAllOrders />}
 
                     </div>
                 </div>
@@ -276,6 +285,9 @@ function AdminHome()
     {
         return (
                 <ul className="navbar-nav ms-auto  mt-2 mt-lg-0">
+                        <li className="nav-item active categoryDropDownMain">
+                            <a className="nav-link admin-nav-link productDropDown dropDown" href="#" onClick={handleShowAllOrders}>Orders</a>
+                        </li>
                         <li className="nav-item active productDropDownMain">
                             <a className="nav-link admin-nav-link productDropDown dropDown" href="#" onClick={handleShowAllProducts}>Products</a>
                         </li>
