@@ -12,11 +12,11 @@
 #     "phoneNumber": 7661979943
 # }
 
-# # Admin Login
-# POST {{BASE_URI}}/login
-# Content-Type: application/json
+# Admin Login
+POST {{BASE_URI}}/login
+Content-Type: application/json
 
-# {
-#     "email": "damareshwarakumar@gmail.com",
-#     "password": "iamadmin@csm"
-# }
+{
+    "email": "damareshwarakumar@gmail.com",
+    "password": "iamadmin@csm"
+}

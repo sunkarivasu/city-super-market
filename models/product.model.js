@@ -1,18 +1,16 @@
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
-    productId: {
+    productId: {                                    // 123
         type: String,
-        unique: true,
-        trim: true,
-        required: false,
+        trim: true
     },
-    categoryId: {
+    categoryId: {                                   // abc beauty
         ref: "category",
         type: mongoose.Schema.ObjectId,
         required: true
     },
-    subCategory: {
+    subCategory: {                                  // hair oils
         type: String,
         required: true,
         trim: true,
@@ -24,14 +22,14 @@ const productSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    brand: {
+    brand: {                                        // parachute
         type: String,
         required: true,
         trim: true,
         minlength: 3,
         maxlength: 255
     },
-    name: {
+    name: {                                         // coconut oil
         type: String,
         required: true,
         trim: true,
@@ -42,7 +40,8 @@ const productSchema = new mongoose.Schema({
         type: String,
         trim: true,
         minlength: 3,
-        maxlength: 512
+        maxlength: 512,
+        required: true
     },
     variants: [{
         price: {
@@ -59,6 +58,21 @@ const productSchema = new mongoose.Schema({
         isSpecialOffer: {
             type: Boolean,
             default: false
+        },
+        discount: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+        discountType: {
+            type: String,
+            trim: true,
+            enum: ["percent", "amount"],
+            default: "amount"
+        },
+        isAvailable: {
+            type: Boolean,
+            default: true
         }
     }],
     quantityType: {
@@ -66,21 +80,6 @@ const productSchema = new mongoose.Schema({
         required: true,
         trim: true,
         enum: ["ml", "l", "g", "kg", "unit"]
-    },
-    discount: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    discountType: {
-        type: String,
-        required: true,
-        trim: true,
-        enum: ["percent", "amount"]
-    },
-    isAvailable: {
-        type: Boolean,
-        default: true
     },
 
 }, { timestamps: true });

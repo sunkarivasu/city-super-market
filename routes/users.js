@@ -4,7 +4,7 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
 // import validations
-const { checkIsAdmin, validateUserRegister, validateUserLogin, checkIsAdminOrSelf } = require('../validations/user.validation');
+const { checkIsAdmin, validateUserRegister, validateUserLogin, checkIsAdminOrSelf, validateUserUpdate } = require('../validations/user.validation');
 
 // import models
 const User = require("../models/user.model");
@@ -121,6 +121,90 @@ router.post(
     }
 );
 
+// route    :: PUT /api/users/:id
+// access   :: admin | self
+// desc     :: update user by id
+router.put(
+    '/:id',
+    passport.authenticate('jwt', { session: false }),
+    checkIsAdminOrSelf,
+    validateUserUpdate,
+    (req, res) => {
+        User.findById(req.params.id)
+            .then(async user => {
+                try {
+                    if (!user) {
+                        return res.status(404).json({ msg: 'User not found' });
+                    }
+
+                    req.body.name && (user.name = req.body.name);
+                    if (req.body.email) {
+                        const userWithEmail = await User.findOne({ emailId: req.body.email, _id: { $ne: req.params.id } })
+                        if (userWithEmail) {
+                            return res.status(422).json({ msg: 'Email already exists' });
+                        }
+                        user.emailId = req.body.email;
+                    }
+                    req.body.password && (user.password = req.body.password);
+                    req.body.address?.length && (user.address = [...user.address, ...req.body.address]);
+
+                    // if (req.body.cartItems?.length) {
+                    //     let cartItems = [...user.cartItems];
+                    //     for (let i = 0; i < req.body.cartItems.length; i++) {
+                    //         const cartItem = req.body.cartItems[i];
+                    //         console.log(cartItem.productId);
+                    //         // Check if product exists in database
+                    //         const product = await Product.findById(cartItem.productId);
+                    //         if (!product) {
+                    //             return res.status(404).json({ msg: 'Product not found' });
+                    //         }
+                    //         // check if product variant exists
+                    //         const quantityMatch = product.variants.find(variant => variant.quantity === cartItem.quantity)
+                    //         if (!quantityMatch) {
+                    //             return res.status(404).json({ msg: 'Product variant not found' });
+                    //         }
+
+                    //         // check product variant already exists in cart
+                    //         const cartItemMatch = cartItems.find(item => item.productId === cartItem.productId && item.quantity === cartItem.quantity);
+                    //         if (cartItemMatch) {
+                    //             return res.status(422).json({ msg: 'Product variant already exists in cart' });
+                    //         }
+                    //         cartItems.push(cartItem);
+                    //     }
+                    //     user.cartItems = cartItems;
+                    // }
+                } catch (err) {
+                    console.error(`⚡[server][userRoute][put /:id] Error :: ${err}`);
+                    res.status(500).json({ msg: 'Internal Server Error' });
+                }
+
+                user.save()
+                    .then(user => {
+                        return res.json({
+                            msg: 'User updated successfully',
+                            data: {
+                                id: user._id,
+                                name: user.name,
+                                email: user.emailId ? user.emailId : '',
+                                phoneNumber: user.phoneNumber,
+                                address: user.address ? user.address : '',
+                                isAdmin: user.isAdmin,
+                                cartItems: user.cartItems.length ? user.cartItems : [],
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        console.error(`⚡[server][userRoute][put /:id] Error :: ${err}`);
+                        res.status(500).json({ msg: 'Internal Server Error' });
+                    });
+            })
+            .catch(err => {
+                console.error(`⚡[server][userRoute][put /:id] Error :: ${err}`);
+                res.status(500).json({ msg: 'Internal Server Error' });
+            });
+    }
+);
+
 // route    :: POST /api/users/login
 // access   :: public
 // desc     :: user login
@@ -167,45 +251,6 @@ router.post(
             });
     }
 );
-
-
-router.route("/getUserDetailsById/:userId").get((req, res) => {
-    User.findById({ _id: req.params.userId })
-        .then((user) => res.json(user))
-        .catch((err) => res.json(400).json("Error:" + err))
-})
-
-router.route("getuserId/:userId").get(passport.authenticate("jwt", { session: false }), (req, res) => {
-    User.findOne({ _id: req.params.userId })
-        .then((user) => res.json(user))
-        .catch((err) => { res.status(400).json("Error:" + err) });
-})
-
-router.route("/checkEmailId/:emailId").get((req, res) => {
-    console.log(req.params.emailId);
-    User.findOne({ emailId: req.params.emailId })
-        .then((user) => {
-            console.log(user);
-            if (user) {
-                res.send({
-                    msg: "EmailId Already exists",
-                    success: false,
-                    err: null
-                })
-            }
-            else {
-                res.send({
-                    msg: "",
-                    success: true,
-                    err: null
-                })
-            }
-        })
-        .catch((err) => {
-            res.json(console.log("Error:" + err));
-        })
-})
-
 
 
 router.route("/addToCart/:userId/:itemId").post((req, res) => {
