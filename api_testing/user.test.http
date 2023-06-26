@@ -31,20 +31,20 @@
 # }
 
 
-# Update user
-PUT {{BASE_URI}}/users/648ec7de415a98dd3b5c6c23
-Authorization: {{TOKEN}}
-Content-Type: application/json
+# # Update user
+# PUT {{BASE_URI}}/users/648ec7de415a98dd3b5c6c23
+# Authorization: {{TOKEN}}
+# Content-Type: application/json
 
-{
-    "name": "Prathyusha Padmanabhuni",
-    "password": "12345678",
-    "email": "prathyu@gmail.com",
-    "address": [{
-        "doorNumber": "1-2-3/4",
-        "streetName": "KPHB 5th Phase",
-        "village": "KPHB",
-        "mandal": "Kukatpally",
-        "pincode": "500081"
-    }]
-}
+# {
+#     "name": "Prathyusha Padmanabhuni",
+#     "password": "12345678",
+#     "email": "prathyu@gmail.com",
+#     "address": [{
+#         "doorNumber": "1-2-3/4",
+#         "streetName": "KPHB 5th Phase",
+#         "village": "KPHB",
+#         "mandal": "Kukatpally",
+#         "pincode": "500081"
+#     }]
+# }
