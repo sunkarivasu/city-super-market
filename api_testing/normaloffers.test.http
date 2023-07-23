@@ -1,0 +1,7 @@
+@BASE_URI = http://localhost:9000/api
+
+@TOKEN = replace your token here
+
+# # Get all special offers
+GET {{BASE_URI}}/normalOffers
+Authorization: {{TOKEN}}

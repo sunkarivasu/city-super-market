@@ -1,6 +1,6 @@
 @BASE_URL = http://localhost:9000/api/products
 
-@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGUyMmVmYjBiOTRjYzRlODMzN2JhYiIsIm5hbWUiOiJEaGFtYXJlc2h3YXJha3VtYXIiLCJlbWFpbCI6ImRhbWFyZXNod2FyYWt1bWFyQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsInBob25lTnVtYmVyIjoiNzY2MTk3OTk0MyIsImlhdCI6MTY4NzY0NTQwOSwiZXhwIjoxNjg3NjQ5MDA5fQ.dkEWPifp4BFyejyYFaijOCqhcYXzzCQHZTWyetGGB8s
+@TOKEN = replace your token here
 
 # # Get All products
 # GET {{BASE_URL}}/
@@ -8,34 +8,41 @@
 # # Get Products by ID
 # GET {{BASE_URL}}/648ef8d3815d297495cb555e
 
-# Add Product
+# # Add Product
 # POST {{BASE_URL}}/
 # Authorization: {{TOKEN}}
 # Content-Type: application/json
 
 # {
-#     "categoryId": "648ef19b18e0ca329961acdd",
-#     "subCategory": "Drinks",
+#     "productId":"1002",
+#     "categoryId": "64bd7a3f3b672888d6a3c4d8",
+#     "subCategory": "Coffee and tea powders",
 #     "image": "https://firebasestorage.googleapis.com/v0/b/city-super-market.appspot.com/o/Fooddrinkssprite%2Fimage?alt=media&token=71e17890-0129-4e23-b755-ebb5cebfe011",
-#     "brand": "Sprite",
-#     "name": "Soft Drink Can",
+#     "brand": "Red label",
+#     "name": "Red label coffe powder",
 #     "variants": [
 #         {
-#             "price": 100,
-#             "quantity": 1
+#             "price": 50,
+#             "quantity": 500,
+#             "isSpecialOffer":false,
+#             "discount":30
 #         },
 #         {
-#             "price": 200,
-#             "quantity": 2
+#             "price": 25,
+#             "quantity": 250,
+#             "isSpecialOffer":false,
+#             "discount":5
 #         },
 #         {
 #             "price": 300,
-#             "quantity": 3
+#             "quantity": 1000,
+#             "isSpecialOffer":false,
+#             "discount":100
 #         }
 #     ],
-#     "quantityType": "unit",
-#     "description": "Sprite  soft drink can {variant}, very very tasty"
+#     "quantityType": "g",
+#     "description": "Red label coffee powder"
 # }
 
 # Get Products by Category
-GET {{BASE_URL}}/topProductsByCategory/2
+# GET {{BASE_URL}}/topProductsByCategory/2

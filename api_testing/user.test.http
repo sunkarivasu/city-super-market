@@ -1,6 +1,6 @@
 @BASE_URI = http://localhost:9000/api
 
-@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGVjN2RlNDE1YTk4ZGQzYjVjNmMyMyIsIm5hbWUiOiJQcmF0aHl1c2hhIFBhZG1hbmFiaHVuaSIsImVtYWlsIjoiIiwiaXNBZG1pbiI6ZmFsc2UsInBob25lTnVtYmVyIjoiNzY2MTk3OTk0MSIsImlhdCI6MTY4NzEyMzkxMSwiZXhwIjoxNjg3MTI3NTExfQ.YnL2ObLYlpZOHsPKVnzr9Q01v4M8xlcvr8Fn0IBSbmY
+@TOKEN = replace your token here
 
 # # Get all users
 # GET {{BASE_URI}}/users
@@ -15,19 +15,19 @@
 # Content-Type: application/json
 
 # {
-#     "name": "Prathyusha",
-#     "email": "prathyusha@gmail.com",
-#     "password": "123456",
-#     "phoneNumber": "7661979941"
+#     "name": "name",
+#     "email": "email@gmail.com",
+#     "password": "password",
+#     "phoneNumber": "9876543210"
 # }
 
-# # User Login
+# # # User Login
 # POST {{BASE_URI}}/users/login
 # Content-Type: application/json
 
 # {
-#     "phoneNumber": "7661979941",
-#     "password": "12345678"
+#     "phoneNumber": "9876543210",
+#     "password": "password"
 # }
 
 
@@ -37,14 +37,14 @@
 # Content-Type: application/json
 
 # {
-#     "name": "Prathyusha Padmanabhuni",
-#     "password": "12345678",
-#     "email": "prathyu@gmail.com",
+#     "name": "name",
+#     "password": "password",
+#     "email": "email@gmail.com",
 #     "address": [{
 #         "doorNumber": "1-2-3/4",
-#         "streetName": "KPHB 5th Phase",
-#         "village": "KPHB",
-#         "mandal": "Kukatpally",
-#         "pincode": "500081"
+#         "streetName": "xyz street 5th Phase",
+#         "village": "village",
+#         "mandal": "mandal",
+#         "pincode": "543210"
 #     }]
 # }
