@@ -82,12 +82,15 @@ const validateProduct = (req, res, next) => {
                 }
 
                 if (discountType === 'percent') {
-                    if (variant.discount < 0 || variant.discount > 100) {
+                    if (variant.discount < 0 || variant.discount >= 100) {
                         errors.discount = "Discount must be between 0 and 100";
                     }
                 } else if (discountType === 'amount') {
-                    if (variant.discount <= 0) {
-                        errors.discount = "Discount must be greater than 0";
+                    if (variant.discount < 0) {
+                        errors.discount = "Discount must be greater or equal to 0";
+                    }
+                    else if (variant.discount >= variant.price) {
+                        errors.discount = "Discount can't be greater than or equal to Price";
                     }
                 }
 
