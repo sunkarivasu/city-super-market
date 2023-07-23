@@ -1,6 +1,6 @@
 @BASE_URL = http://localhost:9000/api/products
 
-@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGUyMmVmYjBiOTRjYzRlODMzN2JhYiIsIm5hbWUiOiJEaGFtYXJlc2h3YXJha3VtYXIiLCJlbWFpbCI6ImRhbWFyZXNod2FyYWt1bWFyQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsInBob25lTnVtYmVyIjoiNzY2MTk3OTk0MyIsImlhdCI6MTY4NzA5MTMwNiwiZXhwIjoxNjg3MDk0OTA2fQ.t05NSSY6H5WjOjsExK_KUhCFXNkkC0jraKQhQ4-jgCo
+@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGUyMmVmYjBiOTRjYzRlODMzN2JhYiIsIm5hbWUiOiJEaGFtYXJlc2h3YXJha3VtYXIiLCJlbWFpbCI6ImRhbWFyZXNod2FyYWt1bWFyQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsInBob25lTnVtYmVyIjoiNzY2MTk3OTk0MyIsImlhdCI6MTY4NzY0NTQwOSwiZXhwIjoxNjg3NjQ5MDA5fQ.dkEWPifp4BFyejyYFaijOCqhcYXzzCQHZTWyetGGB8s
 
 # # Get All products
 # GET {{BASE_URL}}/
@@ -8,7 +8,7 @@
 # # Get Products by ID
 # GET {{BASE_URL}}/648ef8d3815d297495cb555e
 
-# # Add Product
+# Add Product
 # POST {{BASE_URL}}/
 # Authorization: {{TOKEN}}
 # Content-Type: application/json
@@ -17,8 +17,8 @@
 #     "categoryId": "648ef19b18e0ca329961acdd",
 #     "subCategory": "Drinks",
 #     "image": "https://firebasestorage.googleapis.com/v0/b/city-super-market.appspot.com/o/Fooddrinkssprite%2Fimage?alt=media&token=71e17890-0129-4e23-b755-ebb5cebfe011",
-#     "brand": "test",
-#     "name": "test",
+#     "brand": "Sprite",
+#     "name": "Soft Drink Can",
 #     "variants": [
 #         {
 #             "price": 100,
@@ -33,7 +33,8 @@
 #             "quantity": 3
 #         }
 #     ],
-#     "quantityType": "unit"
+#     "quantityType": "unit",
+#     "description": "Sprite  soft drink can {variant}, very very tasty"
 # }
 
 # Get Products by Category

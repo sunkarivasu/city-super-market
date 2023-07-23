@@ -1,13 +1,13 @@
 @BASE_URI = http://localhost:9000/api
 
-@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGUyMmVmYjBiOTRjYzRlODMzN2JhYiIsIm5hbWUiOiJEaGFtYXJlc2h3YXJha3VtYXIiLCJlbWFpbCI6ImRhbWFyZXNod2FyYWt1bWFyQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsInBob25lTnVtYmVyIjoiNzY2MTk3OTk0MyIsImlhdCI6MTY4NzA4NDQ2OSwiZXhwIjoxNjg3MDg4MDY5fQ.qCrFo4M9rFBTvQTZAh0FPUaA48r_DieuoKFWywUnpyg
+@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OGVjN2RlNDE1YTk4ZGQzYjVjNmMyMyIsIm5hbWUiOiJQcmF0aHl1c2hhIFBhZG1hbmFiaHVuaSIsImVtYWlsIjoiIiwiaXNBZG1pbiI6ZmFsc2UsInBob25lTnVtYmVyIjoiNzY2MTk3OTk0MSIsImlhdCI6MTY4NzEyMzkxMSwiZXhwIjoxNjg3MTI3NTExfQ.YnL2ObLYlpZOHsPKVnzr9Q01v4M8xlcvr8Fn0IBSbmY
 
-# Get all users
-GET {{BASE_URI}}/users
-Authorization: {{TOKEN}}
+# # Get all users
+# GET {{BASE_URI}}/users
+# Authorization: {{TOKEN}}
 
 # # Get user by id
-# GET {{BASE_URI}}/users/648e318395875f34a00a20cf
+# GET {{BASE_URI}}/users/648ec7de415a98dd3b5c6c23
 # Authorization: {{TOKEN}}
 
 # # User Registration
@@ -27,5 +27,24 @@ Authorization: {{TOKEN}}
 
 # {
 #     "phoneNumber": "7661979941",
-#     "password": "123456"
+#     "password": "12345678"
+# }
+
+
+# # Update user
+# PUT {{BASE_URI}}/users/648ec7de415a98dd3b5c6c23
+# Authorization: {{TOKEN}}
+# Content-Type: application/json
+
+# {
+#     "name": "Prathyusha Padmanabhuni",
+#     "password": "12345678",
+#     "email": "prathyu@gmail.com",
+#     "address": [{
+#         "doorNumber": "1-2-3/4",
+#         "streetName": "KPHB 5th Phase",
+#         "village": "KPHB",
+#         "mandal": "Kukatpally",
+#         "pincode": "500081"
+#     }]
 # }
