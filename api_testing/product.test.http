@@ -44,5 +44,8 @@
 #     "description": "Red label coffee powder"
 # }
 
-# Get Products by Category
+# Get Top Products by Category
 # GET {{BASE_URL}}/topProductsByCategory/2
+
+# Get Products by Category
+GET {{BASE_URL}}/category/64bd7a3f3b672888d6a3c4d8
