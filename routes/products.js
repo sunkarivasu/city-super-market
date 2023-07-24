@@ -115,14 +115,15 @@ router.get(
 
                 let topProductsByCategory = [];
 
-                for (let i = 0; i < categories.length; i++) {
-                    const products = await Product.find({ categoryId: categories[i]._id })
+                for (const category of categories) {
+                    const products = await Product.find({ categoryId: category._id })
                         .sort({ createdAt: -1 })
                         .limit(parseInt(req.params.count))
 
                     if (products.length) {
                         topProductsByCategory.push({
-                            category: categories[i].categoryName,
+                            category: category.categoryName,
+                            categoryId: category._id,
                             products: products
                         });
                     }
