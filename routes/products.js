@@ -172,16 +172,6 @@ router.get(
             })
     })
 
-
-router.route("/category/:categoryName").get((req, res) => {
-    // console.log(req.params.categoryName);
-    Product.find({ category: req.params.categoryName })
-        .then(products => res.json(products))
-        .catch(err => res.status(400).json("Error" + err));
-});
-
-
-
 router.route("/searchProductDetailsToUpdate/:category/:subCategory/:productName").get((req, res) => {
     Product.find({ category: req.params.category, subCategory: req.params.subCategory, brand: req.params.productName })
         .then((products) => { res.json(products) })
