@@ -1,4 +1,4 @@
-const { isEmpty, trimReqBody } = require("../utils/validations");
+const { isEmpty, trimReqBody } = require("../utils/validatiors");
 const { NAME_REGEX, EMAIL_REGEX, MOBILE_REGEX } = require("../utils/constants");
 
 const checkIsAdmin = (req, res, next) => {

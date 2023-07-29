@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
-const { checkIsAdmin } = require("../validations/user.validation");
-const { validateCategory } = require("../validations/category.validation");
+const { checkIsAdmin } = require("../validators/user.validation");
+const { validateCategory } = require("../validators/category.validation");
 
 // import models
 const Category = require("../models/category.model");

@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
         });
 }
 else {
-    mongoose.connect('mongodb://127.0.0.1:27017/CitySuperMarketDB')
+    mongoose.connect(process.env.MONGO_DEV_URI, { useNewUrlParser: true })
         .then(() => console.log(`⚡[server][${process.env.MONGO_ENV}-${process.env.NODE_ENV}] Database connection established`))
         .catch(err => {
             console.error(`⚡[server][${process.env.MONGO_ENV}-${process.env.NODE_ENV}] Database connection error: ${err.message}`);

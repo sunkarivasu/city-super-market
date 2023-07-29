@@ -1,0 +1,51 @@
+@BASE_URL=http://127.0.01:3333/api/admin
+@TOKEN=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YzQ0Y2RkMDJiOGQ1ZjFlOWY5YzFlOSIsIm5hbWUiOiJEaGFtYXJlc2h3YXJha3VtYXIiLCJlbWFpbCI6ImRhbWFyZXNod2FyYWt1bWFyQGdtYWlsLmNvbSIsInJvbGUiOiJzdXBlcl9hZG1pbiIsImlhdCI6MTY5MDU5MTE0NywiZXhwIjoxNjkwNjc3NTQ3fQ.iI-Zow_7lpSx1sVtuseFQ-SNo31FIJX57p1kqwRzq4M
+@HTTP_VERSION=HTTP/1.1
+
+### Admin Registration
+POST {{BASE_URL}}/register {{HTTP_VERSION}}
+Content-Type: application/json
+Authorization: {{TOKEN}}
+
+{
+    "name": "Vasu",
+    "email": "sunkarivasu1@gmail.com",
+    "allow_password_change": true
+}
+
+### Admin Login
+POST {{BASE_URL}}/login {{HTTP_VERSION}}
+Content-Type: application/json
+
+{
+    "email": "damareshwarakumar@gmail.com",
+    "password": "iamsuperadmin@csm"
+}
+
+### Update Admin Password
+POST {{BASE_URL}}/update-password {{HTTP_VERSION}}
+Content-Type: application/json
+Authorization: {{TOKEN}}
+
+{
+    "password": "iamsuperadmin@csm"
+}
+
+### Forgot Password
+POST {{BASE_URL}}/forgot-password {{HTTP_VERSION}}
+Content-Type: application/json
+
+{
+    "email": "damareshwarakumar@gmail.com"
+}
+
+### Reset Password
+POST {{BASE_URL}}/reset-password {{HTTP_VERSION}}
+Content-Type: application/json
+
+{
+    "email": "damareshwarakumar@gmail.com",
+    "password": "iamsuperadmin@csm",
+    "otp_hash": "345ecfebf1bfa0c9994dcc77d60a7fea9ec9760f8e104ef22eb2ebf2f0830348.1690596262062",
+    "otp": "936903"
+}

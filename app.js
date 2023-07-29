@@ -14,15 +14,16 @@ app.use(passport.initialize());
 // Configuration
 dotenv.config();
 require('./config/db');
-require("./config/passport")(passport);
+require("./config/passportJwt")(passport);
 
 
 // Constants
-PORT = process.env.PORT || 9000;
+PORT = process.env.PORT || 3333;
 
 
 // Routes
 app.use("/api/admin", require("./routes/admin"));
+
 app.use("/api/users", require("./routes/users"));
 app.use("/api/categories", require("./routes/categories"));
 app.use("/api/products", require("./routes/products"));

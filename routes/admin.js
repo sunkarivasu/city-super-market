@@ -1,12 +1,44 @@
-const router = require('express').Router();
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const router = express.Router();
+const passport = require("passport");
+const {
+    registerAdmin,
+    loginAdmin,
+    updateAdminPassword,
+    forgotPassword,
+    resetAdminPassword
+} = require('../controllers/admin');
+const {
+    validateAdminRegistration,
+    validateAdminLogin,
+    validateUpdatePassword,
+    validateForgotPassword,
+    validateOtp,
+    validateResetPassword,
+    isSuperAdmin
+} = require('../validators/admin');
 
-// import validations
-const { validateAdminLogin } = require('../validations/admin.validation');
+// route    :: POST /api/admin/register
+// access   :: Super Admin
+// desc     :: Admin Registration
+router.post(
+    '/register',
+    passport.authenticate('jwt', { session: false }),
+    isSuperAdmin,
+    validateAdminRegistration,
+    (req, res) => {
+        const data = {
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password || '',
+            allow_password_change: req.body.allow_password_change || false
+        };
 
-// import models
-const User = require('../models/user.model');
-
+        registerAdmin(data)
+            .then(admin => res.json({ msg: `Admin registered. Instructions are mailed to respective user`, data: { admin } }))
+            .catch(err => res.status(err.status || 500).json({ msg: err.msg || 'Internal Server Error', err: err.err || {} }));
+    }
+);
 
 // route    :: POST /api/admin/login
 // access   :: Public
@@ -15,80 +47,66 @@ router.post(
     '/login',
     validateAdminLogin,
     (req, res) => {
-        User.findOne({ emailId: req.body.email, isAdmin: true })
-            .then(user => {
-                if (!user || !user.authenticate(req.body.password)) {
-                    return res.status(401).json({ msg: 'Invalid Credentials' });
-                }
+        const data = {
+            email: req.body.email,
+            password: req.body.password
+        };
 
-                const jwtPayload = {
-                    id: user._id,
-                    name: user.name,
-                    email: user.emailId,
-                    isAdmin: user.isAdmin,
-                    phoneNumber: user.phoneNumber
-                };
-
-                jwt.sign(
-                    jwtPayload,
-                    process.env.JWT_SECRET,
-                    { expiresIn: 3600 },
-                    (err, token) => {
-                        if (err) {
-                            console.error('[server][adminRoute][login] Error while generating token', err);
-                            return res.status(500).json({ msg: 'Internal Server Error' });
-                        }
-
-                        return res.json({
-                            msg: 'Admin Logged In Successfully',
-                            data: {
-                                token: `Bearer ${token}`
-                            }
-                        });
-                    }
-                );
-            })
-            .catch(err => {
-                console.error('[server][adminRoute][login] Error while finding admin', err);
-                return res.status(500).json({ msg: 'Internal Server Error' });
-            });
+        loginAdmin(data)
+            .then(token => res.json({ msg: 'Admin Logged In Successfully', data: { token } }))
+            .catch(err => res.status(err.status || 500).json({ msg: err.msg || 'Internal Server Error', err: err.err || {} }));
     }
 );
 
-// // TODO: Delete this route
-// // route    :: POST /api/admin/register
-// // access   :: Public
-// // desc     :: Admin Register
-// router.post(
-//     '/register',
-//     validateAdminLogin,
-//     (req, res) => {
-//         User.findOne({ emailId: req.body.email, isAdmin: true })
-//             .then(user => {
-//                 if (user) {
-//                     return res.status(422).json({ msg: 'Admin already exists' });
-//                 }
+// route    :: POST /api/admin/update-password
+// access   :: public
+// desc     :: Update admin password
+router.post(
+    '/update-password',
+    validateUpdatePassword,
+    (req, res) => {
+        const data = {
+            password: req.body.password,
+            token: req.headers.authorization
+        };
 
-//                 const newUser = new User({
-//                     name: req.body.name,
-//                     emailId: req.body.email,
-//                     password: req.body.password,
-//                     phoneNumber: req.body.phoneNumber,
-//                     isAdmin: true
-//                 });
+        updateAdminPassword(data)
+            .then(token => res.json({ msg: 'Admin password updated successfully', data: { token } }))
+            .catch(err => res.status(err.status || 500).json({ msg: err.msg || 'Internal Server Error', err: err.err || {} }));
+    }
+);
 
-//                 newUser.save()
-//                     .then(user => res.json({ msg: 'Admin Registered Successfully', data: user }))
-//                     .catch(err => {
-//                         console.error('[server][adminRoute][register] Error while saving admin', err);
-//                         return res.status(500).json({ msg: 'Internal Server Error' });
-//                     });
-//             })
-//             .catch(err => {
-//                 console.error('[server][adminRoute][register] Error while finding admin', err);
-//                 return res.status(500).json({ msg: 'Internal Server Error' });
-//             });
-//     }
-// );
+// route    :: POST /api/admin/forgot-password
+// access   :: public
+// desc     :: Send Password reset link to admin
+router.post(
+    '/forgot-password',
+    validateForgotPassword,
+    (req, res) => {
+        forgotPassword({ email: req.body.email })
+            .then(hash => res.json({ msg: `Password reset link sent to ${req.body.email}`, data: { hash } }))
+            .catch(err => res.status(err.status || 500).json({ msg: err.msg || 'Internal Server Error', err: err.err || {} }));
+    }
+);
+
+// route    :: POST /api/admin/reset-password
+// access   :: public
+// desc     :: Reset admin password
+router.post(
+    '/reset-password',
+    validateResetPassword,
+    (req, res) => {
+        const data = {
+            email: req.body.email,
+            password: req.body.password,
+            otp: req.body.otp,
+            otpHash: req.body.otp_hash
+        };
+
+        resetAdminPassword(data)
+            .then(token => res.json({ msg: 'Admin password updated successfully', data: { token } }))
+            .catch(err => res.status(err.status || 500).json({ msg: err.msg || 'Internal Server Error', err: err.err || {} }));
+    }
+);
 
 module.exports = router;

@@ -4,7 +4,7 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
 // import validations
-const { checkIsAdmin, validateUserRegister, validateUserLogin, checkIsAdminOrSelf, validateUserUpdate } = require('../validations/user.validation');
+const { checkIsAdmin, validateUserRegister, validateUserLogin, checkIsAdminOrSelf, validateUserUpdate } = require('../validators/user.validation');
 
 // import models
 const User = require("../models/user.model");
@@ -232,7 +232,7 @@ router.post(
                     { expiresIn: 3600 },
                     (err, token) => {
                         if (err) {
-                            console.error('[server][userRoute][login] Error while generating token', err);
+                            console.error('⚡[server][userRoute][login] Error while generating token', err);
                             return res.status(500).json({ msg: 'Internal Server Error' });
                         }
 
