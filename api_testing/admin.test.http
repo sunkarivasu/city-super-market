@@ -6,17 +6,17 @@
 # Content-Type: application/json
 
 # {
-#     "name": "Dhamareshwarakumar",
-#     "email": "damareshwarakumar@gmail.com",
-#     "password": "iamadmin@csm",
-#     "phoneNumber": 7661979943
+#     "name": "name",
+#     "email": "email@gmail.com",
+#     "password": "password",
+#     "phoneNumber": 9876543210
 # }
 
 # Admin Login
-POST {{BASE_URI}}/login
-Content-Type: application/json
+# POST {{BASE_URI}}/login
+# Content-Type: application/json
 
-{
-    "email": "damareshwarakumar@gmail.com",
-    "password": "iamadmin@csm"
-}
+# {
+#     "email": "email@gmail.com",
+#     "password": "password"
+# }

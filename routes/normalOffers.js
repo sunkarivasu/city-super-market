@@ -1,74 +1,25 @@
-var router = require("express").Router();
-const { json } = require("express/lib/response");
-var NormalOffer = require("../models/normalOffer.model");
+const router = require("express").Router();
 
-router.route("/").get((req,res)=>
-{
-    NormalOffer.find({})
-    .then((offers) => res.json(offers))
-    .catch((err) => res.status(400).json("Error"+err));
-});
-
-router.route("/getActiveOffers").get((req,res)=>
-{
-    NormalOffer.find({status:"Active"})
-    .then((offers) => res.json(offers))
-    .catch((err) => res.status(400).json("Error"+err));
-});
-
-router.route("/add").post((req,res)=>
-{
-    var newNormalOffer = new NormalOffer ({
-        productName:req.body.productName,
-        price:req.body.price,
-        description:req.body.description,
-        image:req.body.image,
-        retailPrice:req.body.retailPrice
-    });
-    console.log(newNormalOffer);
-    newNormalOffer.save()
-    .then(() => res.json("normal offer added"))
-    .catch((err) => res.status(400).json("Error"+err));
-});
+//import Models
+const Product = require("../models/product.model");
 
 
-router.route("/idNo/:idNumber").get((req,res) =>
-{
-    NormalOffer.findById(req.params.idNumber)
-    .then((offer) => {res.json(offer)})
-    .catch((err) => {res.status(400).json("Error:"+err)});
-});
+// route    :: GET /api/normalOffers/
+// access   :: Public
+// desc     :: returns all the special offers
+router.get("/",
+    (req, res) => {
+        Product.find({ variants: { $elemMatch: { isSpecialOffer: true, isAvailable: true } } })
+            .sort({ createdAt: -1 })
+            .then((products) => res.json({
+                msg: "Special offers fetched successfully",
+                data: products
+            }))
+            .catch((err) => {
+                console.error(`⚡[server][normalOffersRoute][get /] Error :: ${err}`);
+                res.status(500).json({ msg: "Internal Server Error" });
+            })
 
-router.route("/updateNormalOfferDetails/").put((req,res) =>
-{
-    console.log("retail Price:",req.body.retailPrice);
-    NormalOffer.findByIdAndUpdate(req.body._id,{productName:req.body.productName,price:req.body.price,image:req.body.image,retailPrice:req.body.retailPrice,description:req.body.description})
-        .then(() => {console.log("NormalOffer updated successfully");res.send({})})
-        .catch((err) => {console.log("Error Occured While updating NormalOffer details");})
-});
+    })
 
-router.route("/delete/:offerId").delete((req,res) =>
-{
-    NormalOffer.findByIdAndDelete(req.params.offerId)
-        .then(() => {console.log("Normal Offer Deleted: "+req.params.offerId)
-        res.send({})
-        })
-        .catch((err) => res.status(400).json("Error occured while deleting product"));
-
-})
-
-router.route("/changeStatus/:offerId").post((req,res) =>
-{
-    console.log(req.params.offerId,req.body.status);
-    console.log(req.body.status === false?"InActive":"Active");
-    NormalOffer.updateOne({_id:req.params.offerId},{$set:{status:req.body.status === false?"InActive":"Active"}})
-        .then(() => {console.log("status changed for Normal Offer:"+req.params.offerId)
-        res.send({})
-        })
-        .catch((err) => res.status(400).json("Error occured while deleting product"));
-})
-
-
-
-
-module.exports=router;
+module.exports = router;

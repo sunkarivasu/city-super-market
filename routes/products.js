@@ -101,50 +101,77 @@ router.post(
     }
 );
 
-router.route("/add").post((req, res) => {
-    var newProduct = new Product({
-        category: req.body.category,
-        subCategory: req.body.subCategory,
-        image: req.body.image,
-        brand: req.body.brand,
-        price: req.body.price,
-        description: req.body.description,
-        discount: req.body.discount,
-        quantity: req.body.quantity
-    });
+// route    :: GET /api/products/topProductsByCategory/:count
+// desc     :: Get top ${count} products by category
+// access   :: Public
+router.get(
+    '/topProductsByCategory/:count',
+    (req, res) => {
+        Category.find()
+            .then(async categories => {
+                if (!categories.length) {
+                    return res.status(404).json({ msg: "Categories not found" });
+                }
 
-    newProduct.save()
-        .then(() => res.json("product added"))
-        .catch((err) => res.status(400).json("Error" + err));
-});
+                let topProductsByCategory = [];
 
-router.route("/category/:categoryName").get((req, res) => {
-    // console.log(req.params.categoryName);
-    Product.find({ category: req.params.categoryName })
-        .then(products => res.json(products))
-        .catch(err => res.status(400).json("Error" + err));
-});
+                for (const category of categories) {
+                    const products = await Product.find({ categoryId: category._id })
+                        .sort({ createdAt: -1 })
+                        .limit(parseInt(req.params.count))
 
+                    if (products.length) {
+                        topProductsByCategory.push({
+                            category: category.categoryName,
+                            categoryId: category._id,
+                            products: products
+                        });
+                    }
+                };
 
-router.route("/noOfProducts/:number").get((req, res) => {
-    Category.find({})
-        .then(async (categoryResult) => {
-            var categoryTopList = [];
-            // console.log(categoryTopList);
-            for (var i = 0; i < categoryResult.length; i++) {
-                await Product.find({ category: categoryResult[i].categoryName }).limit(req.params.number)
-                    .then((productResult) => {
-                        if (productResult.length)
-                            categoryTopList.push(productResult)
-                        // console.log("pushed")
-                    })
-                    .catch((err) => { console.log(err) });
-            }
-            // console.log(categoryTopList);
-            res.json(categoryTopList);
-        })
-        .catch((err) => { console.log(err) })
-});
+                return res.json({ msg: "Top products by category fetched successfully", data: topProductsByCategory });
+            })
+            .catch(err => {
+                console.error(`⚡[server][productRoute][get /topProductsByCategory/:count] Error :: ${err}`);
+                return res.status(500).json({ msg: "Internal server error" });
+            });
+    }
+);
+
+// route    :: GET /api/products/category/:categoryId
+// desc     :: Get all products by category
+// access   :: Public
+router.get(
+    '/category/:categoryId',
+    (req, res) => {
+        Category.findOne({ categoryId: req.params.categoryId })
+            .then((category) => {
+                if (category) {
+                    Product.find({ category: req.params.categoryId })
+                        .then((products) => {
+                            if (products.length == 0) {
+                                res.status(404).json({
+                                    msg: 'No products found for the category ' + req.params.categoryName,
+                                })
+                            }
+                            else {
+                                res.json({ msg: "Products by category fetched successfully", data: products })
+                            }
+                        })
+                        .catch((err) => {
+                            console.error(`⚡[server][productRoute][get /category/:categoryId] Error :: ${err}`)
+                            res.status(500).json({ msg: "Internal server Error" })
+                        })
+                }
+                else {
+                    res.status(404).json({ msg: "Category Not found" })
+                }
+            })
+            .catch((err) => {
+                console.error(`⚡[server][productRoute][get /category/:categoryId] Error :: ${err}`)
+                res.status(500).json({ msg: "Internal server Error" })
+            })
+    })
 
 router.route("/searchProductDetailsToUpdate/:category/:subCategory/:productName").get((req, res) => {
     Product.find({ category: req.params.category, subCategory: req.params.subCategory, brand: req.params.productName })

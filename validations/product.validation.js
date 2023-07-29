@@ -68,6 +68,37 @@ const validateProduct = (req, res, next) => {
             if (!isEmpty(variant.isSpecialOffer) && typeof variant.isSpecialOffer !== 'boolean') {
                 errors.variants = "isSpecialOffer must be a boolean";
             }
+
+            // Discount Validation
+            if (!isEmpty(variant.discount)) {
+                let discountType = 'amount';
+
+                if (!isEmpty(variant.discountType)) {
+                    discountType = variant.discountType.toLowerCase();
+
+                    if (discountType !== 'percent' && discountType !== 'amount') {
+                        errors.discountType = "Discount Type must be one of percent, amount";
+                    }
+                }
+
+                if (discountType === 'percent') {
+                    if (variant.discount < 0 || variant.discount >= 100) {
+                        errors.discount = "Discount must be between 0 and 100";
+                    }
+                } else if (discountType === 'amount') {
+                    if (variant.discount < 0) {
+                        errors.discount = "Discount must be greater or equal to 0";
+                    }
+                    else if (variant.discount >= variant.price) {
+                        errors.discount = "Discount can't be greater than or equal to Price";
+                    }
+                }
+
+                // isAvailable Validation
+                if (!isEmpty(variant.isAvailable) && typeof variant.isAvailable !== 'boolean') {
+                    errors.isAvailable = "isAvailable must be a boolean";
+                }
+            }
         });
     }
 
@@ -76,34 +107,6 @@ const validateProduct = (req, res, next) => {
         errors.quantityType = "Quantity Type is required";
     } else if (!QUANTITY_TYPES.includes(req.body.quantityType)) {
         errors.quantityType = "Quantity Type must be one of " + QUANTITY_TYPES.join(", ");
-    }
-
-    // Discount Validation
-    if (!isEmpty(req.body.discount)) {
-        let discountType = 'percent';
-
-        if (!isEmpty(req.body.discountType)) {
-            discountType = discountType.toLowerCase();
-
-            if (discountType !== 'percent' && discountType !== 'amount') {
-                errors.discountType = "Discount Type must be one of percent, amount";
-            }
-        }
-
-        if (discountType === 'percent') {
-            if (req.body.discount < 0 || req.body.discount > 100) {
-                errors.discount = "Discount must be between 0 and 100";
-            }
-        } else if (discountType === 'amount') {
-            if (req.body.discount <= 0) {
-                errors.discount = "Discount must be greater than 0";
-            }
-        }
-    }
-
-    // isAvailable Validation
-    if (!isEmpty(req.body.isAvailable) && typeof req.body.isAvailable !== 'boolean') {
-        errors.isAvailable = "isAvailable must be a boolean";
     }
 
     // Check if errors exist

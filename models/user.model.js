@@ -46,7 +46,6 @@ const userSchema = new mongoose.Schema({
         },
         landMark: {
             type: String,
-            required: true,
             trim: true,
             minlength: 2,
             maxlength: 255
