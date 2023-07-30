@@ -32,6 +32,7 @@ app.use("/api/offers", require("./routes/offers"));
 app.use("/api/normalOffers", require("./routes/normalOffers"));
 app.use("/api/offerUsers", require("./routes/offerUsers"));
 app.use("/api/userRequests", require("./routes/userRequests"));
+app.use("/api/deliverableAddresses", require("./routes/deliverableAddresses"));
 
 // Cron Jobs
 require('./jobs/generateWinner');

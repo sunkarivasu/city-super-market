@@ -1,5 +1,5 @@
-const { isEmpty, trimReqBody } = require('../utils/validations');
-const { EMAIL_REGEX } = require('../utils/constants');
+const { isEmpty, trimReqBody } = require('../utils/helpers/validation');
+const { EMAIL_REGEX } = require('../utils/helpers/constants');
 
 const validateAdminLogin = (req, res, next) => {
     errors = {};
