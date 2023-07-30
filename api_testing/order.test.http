@@ -1,0 +1,35 @@
+@BASE_URI = http://localhost:9000/api/orders
+
+@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YzUzMzMwNzg4Yjk3Y2FiODQyMTZkNSIsIm5hbWUiOiJWYXN1IFN1bmthcmkiLCJlbWFpbCI6IiIsImlzQWRtaW4iOmZhbHNlLCJwaG9uZU51bWJlciI6Ijk5NDk1NjY1ODUiLCJpYXQiOjE2OTA3NDUxMDQsImV4cCI6MTY5MDc0ODcwNH0.3kOK1LrIRJeWoqQS3xKCjYDO2TAPrW-iZ9bh9tDe-ro
+# # Get all orders
+# GET {{BASE_URI}}
+# Authorization: {{TOKEN}}
+
+# # Add new order
+# POST {{BASE_URI}}/add
+# Authorization: {{TOKEN}}
+# Content-Type: application/json
+
+# {
+#     "userId":"64c53330788b97cab84216d5",
+#     "orderItems":[
+#         {
+#         "productId":"64bd7a963b672888d6a3c4de",
+#         "quantity":1,
+#         "orderQuantity":20
+#         }
+#     ],
+#     "amount":2000,
+#     "amountAfterDiscount":140,
+#     "deliveryAddress":{
+#         "doorNumber":"3-1-142",
+#         "streetName":"Main street",
+#         "landMark":"shivalayam",
+#         "village":"ponugutivalasa",
+#         "pincode":"532127",
+#         "mandal":"santhakaviti",
+#         "district":"vijayanagaram"
+#     }
+# }
+
+

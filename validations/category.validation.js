@@ -1,4 +1,4 @@
-const { trimReqBody, isEmpty } = require("../utils/validations");
+const { trimReqBody, isEmpty } = require("../utils/helpers/validation");
 
 const validateCategory = (req, res, next) => {
     errors = {};

@@ -1,0 +1,17 @@
+@BASE_URI = http://localhost:9000/api/deliverableAddresses
+
+@TOKEN = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YzU2MDUyM2NkOTIyMWE2M2U0ZmI3NCIsIm5hbWUiOiJDc20gQWRtaW4iLCJlbWFpbCI6ImFkbWluQGNzbS5jb20iLCJpc0FkbWluIjp0cnVlLCJwaG9uZU51bWJlciI6IjkwNTkxODY0MDkiLCJpYXQiOjE2OTA2NTcxNTMsImV4cCI6MTY5MDY2MDc1M30.zHwcWo8nBhQqblln1GWGd3fxfjOsqNCbpKtSNX6xInU
+# Get all deliverable addresses
+# GET {{BASE_URI}}
+# Authorization: {{TOKEN}}
+
+
+# Add new delivery address
+POST {{BASE_URI}}/add
+Content-Type: application/json
+{
+    "village": "ponugutivalasa",
+    "mandal": "santhakaviti",
+    "district": "vijayanagaram",
+}
+

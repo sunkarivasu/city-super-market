@@ -1,5 +1,5 @@
-const { trimReqBody, isEmpty } = require("../utils/validations");
-const { QUANTITY_TYPES } = require("../utils/constants");
+const { trimReqBody, isEmpty } = require("../utils/helpers/validation");
+const { QUANTITY_TYPES } = require("../utils/helpers/constants");
 
 const validateProduct = (req, res, next) => {
     errors = {};

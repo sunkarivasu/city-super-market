@@ -1,5 +1,5 @@
-const { isEmpty, trimReqBody } = require("../utils/validations");
-const { NAME_REGEX, EMAIL_REGEX, MOBILE_REGEX } = require("../utils/constants");
+const { isEmpty, trimReqBody } = require("../utils/helpers/validation");
+const { NAME_REGEX, EMAIL_REGEX, MOBILE_REGEX } = require("../utils/helpers/constants");
 
 const checkIsAdmin = (req, res, next) => {
     if (req.user.isAdmin) {
