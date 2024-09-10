@@ -3,6 +3,8 @@ var UserRequest = require("../models/userRequest.model");
 
 router.route("/").get((req,res) => {
     UserRequest.find({})
+    .sort({_id: -1})
+    .exec()
     .then((requests) =>
     {
         res.json(requests);

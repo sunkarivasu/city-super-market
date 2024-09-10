@@ -11,19 +11,30 @@
     /* background-color: #F6C6EA; */
     background-color: #ECF2FF;
     /* padding:10px 0px; */
-    font-family: 'Poppins-Bold';
+    /* font-family: 'Poppins-Bold'; */
+    font-family: 'Roboto';
     /* padding: 0px 0px 100px 0px; */
     text-align: center;
     /* padding:60px 0px 30px 0px; */
     padding: 30px 0px;
 }
 
-.offers-page .csm-heading 
+.offers-page .csm-heading
 {
     font-size: 20px;
     margin: auto;
     color: #576CBC;
-    
+
+}
+
+.scratch-card{
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    margin: 20px auto;
+    justify-content: center;
+    border: 1px solid;
+    border-radius: 5px;
 }
 
 .winner-container, .winner-list-container
@@ -93,7 +104,7 @@
 
 .winner-component
 {
-    
+
 }
 
 .no-image
@@ -279,7 +290,7 @@
     margin-top:50px
 }
 
-.waiting-time-container 
+.waiting-time-container
 {
     width:100vw;
     height: 100vh;
@@ -297,7 +308,7 @@
 
 .winner-each-number
 {
-    border: 1px solid black;   
+    border: 1px solid black;
     padding: 0px 5px;
     font-size: 20px;
     border-radius: 5px;
@@ -462,4 +473,3 @@
     text-align: center;
 }
 
-    

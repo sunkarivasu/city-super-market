@@ -1,0 +1,275 @@
+.gameon-container{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+body{
+    /* font-family: "raleway"; */
+}
+
+.gameon-header{
+    font-weight: 900;
+    font-size: 40px;
+    color: #229799;
+}
+
+.scratch-card-div{
+    margin-top: 350px;
+}
+
+.question{
+    display: flex;
+    max-width: fit-content;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+}
+
+.user-name{
+    display: inline;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.question-number{
+    font-weight: 600;
+    font-size: 30px;
+    margin: 0px 10px;
+}
+
+.question-input{
+    max-width: 50px;
+    /* font-weight: 600; */
+    border-radius: 5px;
+
+}
+
+.participate-in-game-div{
+    max-width: 400px;
+    text-align: center;
+    margin: auto;
+}
+
+.phone-number-input{
+    padding: 6px 50px;
+    background-color: transparent;
+    border: 1px solid #758694;
+    border-radius: 10px;
+    display: block;
+    margin: 20px;
+    text-align: center;
+}
+
+.send-btn
+{
+    border-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 16px;
+    padding: 5px 50px;
+    background-color: #229799;
+    color: white;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.send-btn.disabled {
+    opacity: 0.5;
+}
+
+.margin-bottom{
+    margin-bottom: 100px;
+}
+
+/* Styling for the game container */
+.gameon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Game header */
+.gameon-header {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Question container (the drag-and-drop area) */
+.question {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Drop zones for the x and y numbers */
+.question-input {
+    width: 80px;
+    height: 80px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    margin: 0 10px;
+    transition: border-color 0.3s ease;
+}
+
+.question-input:hover {
+    border-color: #888;
+}
+
+/* Style for when a number is dropped */
+.question-input.filled {
+    border: 2px solid #4caf50; /* Green for correct */
+    color: #333;
+}
+
+/* Style for the + and = symbols */
+.question-number {
+    margin: 0 10px;
+}
+
+/* Container for the draggable numbers */
+.available-numbers {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* Each draggable number */
+.number-option {
+    width: 60px;
+    height: 60px;
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: grab;
+    margin: 0 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Hover and active styles for draggable numbers */
+.number-option:hover {
+    transform: scale(1.1);
+    background-color: #ddd;
+}
+
+.number-option:active {
+    cursor: grabbing;
+}
+
+/* Feedback for correct or incorrect answers */
+.correct-answer {
+    background-color: #4caf50;
+    color: white;
+}
+
+.incorrect-answer {
+    background-color: #f44336;
+    color: white;
+}
+
+/* Drop zones for the x and y numbers */
+.question-input {
+    width: 80px;
+    height: 80px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    margin: 0 10px;
+    transition: border-color 0.3s ease;
+}
+
+.question-input:hover {
+    border-color: #888;
+}
+
+/* Style for when a number is dropped (correct) */
+.question-input.filled {
+    border: 2px solid #4caf50; /* Green for correct */
+    color: #333;
+}
+
+/* Style for when the answer is wrong */
+.question-input.incorrect {
+    border-color: #f44336; /* Red border for incorrect answers */
+}
+
+/* Container for the draggable numbers */
+.available-numbers {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* Each draggable number */
+.number-option {
+    width: 60px;
+    height: 60px;
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: grab;
+    margin: 0 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.number-option:hover {
+    transform: scale(1.1);
+    background-color: #ddd;
+}
+
+.step-name{
+    font-weight: 700;
+    font-size: larger;
+    margin: 15px;
+    /* opacity: 0.6; */
+    color: #577B8D;
+}
+
+.solve-puzzle-step{
+    margin-bottom: 2px;
+}
+
+.step-description{
+    opacity: 0.7;
+    font-size: small;
+}
+
+.invalid-user-msg{
+}
+
+.max-width{
+    max-width: 350px;
+}
+
+.description{
+    opacity: 0.6;
+}
+
+.err-msg{
+    color: red;
+}

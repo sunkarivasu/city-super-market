@@ -17,6 +17,7 @@ router.post(
     (req, res) => {
         Admin.findOne({ email: req.body.email })
             .then(admin => {
+                console.log("admin", admin)
                 if (!admin || !admin.authenticate(req.body.password)) {
                     return res.status(401).json({ msg: 'Invalid Credentials' });
                 }

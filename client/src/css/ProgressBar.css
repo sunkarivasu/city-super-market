@@ -1,0 +1,131 @@
+/* Container for the progress bar */
+.progress-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    background-color: transparent; /* Transparent background */
+    padding: 20px;
+    margin: 0 auto;
+  }
+
+  /* Container for steps */
+  .steps-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+  }
+
+  /* Step wrapper */
+  .step-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Step circle */
+  .step-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px; /* 15px radius for the circle */
+    border: 2px solid green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: transparent;
+  }
+
+  /* Styling for active, completed, and upcoming steps */
+  .active {
+    background-color: green;
+    color: white;
+  }
+
+  .completed {
+    background-color: green;
+    color: white;
+  }
+
+  .upcoming {
+    background-color: rgba(0, 128, 0, 0.3);
+    color: rgba(0, 128, 0, 0.3);
+  }
+
+  /* Step label */
+  .step-label {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    color: black; /* Visible text color */
+  }
+
+  /* Bold text for active step */
+  .active-label {
+    font-weight: bold;
+    color: green;
+  }
+
+  /* Upcoming step label */
+  .upcoming-label {
+    color: rgba(0, 128, 0, 0.5);
+  }
+
+  /* Step description */
+  .step-desc {
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: black; /* Visible text color */
+    text-align: center;
+    max-width: 100px;
+    flex-wrap: wrap;
+    opacity: 0.8;
+    display: none;;
+    line-height: 30px;
+  }
+
+  .step-desc.highlighted{
+    font-weight: 600;
+    font-size: 14px;
+    display: block;
+  }
+
+  /* Progress line between steps */
+  .progress-line {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    right: -50%;
+    height: 2px;
+    background-color: green;
+    z-index: -1;
+  }
+
+  /* Line for completed steps */
+  .completed-line {
+    background-color: green;
+  }
+
+  /* Line for upcoming steps */
+  .upcoming-line {
+    background-color: rgba(0, 128, 0, 0.3);
+  }
+
+  /* Tick mark for completed steps */
+  .tick {
+    font-size: 8px;
+  }
+
+  /* Limiting progress bar to maximum width of 400px */
+  .progress-bar {
+    max-width: 500px;
+    margin: 0 auto;
+  }

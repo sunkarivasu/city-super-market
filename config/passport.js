@@ -11,7 +11,7 @@ opts.secretOrKey = process.env.JWT_SECRET;
 
 module.exports = passport => {
     passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
-        if (jwt_payload?.role == 'admin') {
+        if (jwt_payload.role == 'admin') {
             console.log("Admin", jwt_payload)
             Admin.findOne({ email: jwt_payload.email }, function (err, admin) {
                 if (err) {

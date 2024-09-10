@@ -12,7 +12,15 @@ var offerSchema = new mongoose.Schema(
             type:String,
             default:""
         },
-        winnerImage:String
+        winnerImage:String,
+        isActive:{
+            type: Boolean,
+            default: false
+        },
+        activatedAt : {
+            type: Date,
+            default: null
+        }
     }
 );
 
