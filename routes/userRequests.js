@@ -1,5 +1,6 @@
 var router = require("express").Router();
 var UserRequest = require("../models/userRequest.model");
+var OfferUser = require("../models/offerUser.model");
 
 router.route("/").get((req,res) => {
     UserRequest.find({})
@@ -27,7 +28,6 @@ router.route("/active").get((req,res) => {
     })
 })
 
-
 router.route("/add").post((req,res)=>
 {
     console.log(req.body);
@@ -38,11 +38,12 @@ router.route("/add").post((req,res)=>
         noOfDays:req.body.noOfDays
     });
     console.log(newUserRequest);
-    UserRequest.findOne({phoneNumber:req.body.phoneNumber})
-    .then((userRequest) =>{
-        if(userRequest)
+    OfferUser.findOne({phoneNumber:req.body.phoneNumber})
+    .then((offerUser) =>{
+        if(offerUser)
         {
-            res.send({status:false,msg:"PhoneNumber already Exists"})
+            if(offerUser.endDate >= new Date())
+                res.send({status:false,msg:"You are already an active member"})
         }
         else
         {
@@ -52,8 +53,6 @@ router.route("/add").post((req,res)=>
         }
     })
 });
-
-
 
 router.route("/changeStatus").put((req,res) =>
 {
@@ -83,8 +82,5 @@ router.route("/updateUserRequest").put((req,res) =>
     .then(() => {console.log("User Request updated successfully");res.send({})})
     .catch((err) => {console.log("Error Occured While updating offerUser details");})
 });
-
-
-
 
 module.exports=router;

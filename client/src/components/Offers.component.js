@@ -11,6 +11,7 @@ import { cssTransition, toast } from "react-toastify";
 import { IoSendSharp } from "react-icons/io5";
 import ScratchCard from "./ScratchCard";
 import Game from "./GameOn";
+import UserRequestForm from "./UserRequestForm";
 
 function OffersPage()
 {
@@ -332,7 +333,7 @@ function OffersPage()
                             </a>
                         </div>}
                     </div>
-
+                    <UserRequestForm/>
                 </div>
             </div>}
         </div>

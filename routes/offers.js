@@ -238,7 +238,8 @@ router.route('/isofferactive').get(async (req, res) => {
             return res.status(200).json({
                 message: "Data fetched successfully",
                 data: {
-                    isActive: false,
+                    // isActive: false,
+                    isActive: true,
                 }
             });
         }
@@ -250,6 +251,28 @@ router.route('/isofferactive').get(async (req, res) => {
         });
     }
 })
+
+router.route("/fetchparticipantscount/:id").get((req,res) =>
+    {
+        OfferParticipants.countDocuments({offerId:req.params.id})
+        .then((count) =>
+        {
+            res.status(200).json({
+                message:"participants count fetched successfully",
+                data:{
+                    count: count
+                }
+            })
+        })
+        .catch((err) =>
+        {
+            res.status(500).json({
+                message:"Something went wrong",
+                data: null
+            })
+            console.log("Error occured while fetching participants count",err);
+        })
+    })
 
 
 const saveOfferParticipant = async (offer, offerUser) => {

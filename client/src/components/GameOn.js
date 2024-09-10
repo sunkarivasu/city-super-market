@@ -183,7 +183,7 @@ const Game = () => {
                                     Hi <div className="user-name">{result?.name}</div>
                                     {result && result.isAlreadyParticipated
                                         ? ", You have already participated"
-                                        : ", Please scratch the below scratch card to see your result"}
+                                        : ", Please scratch the card below to see your result."}
                                 </div>
                                 <div className="scratch-card-div">
                                     <ScratchCard
@@ -195,7 +195,7 @@ const Game = () => {
                             </>
                         ) :
                             <>
-                                <ProgressBar steps={steps} currentStep={3}/>
+                                <ProgressBar steps={steps} currentStep={3} isCorrect={false}/>
                                 {isResultLoading ?
                                     <div>Loading...</div>
                                 :

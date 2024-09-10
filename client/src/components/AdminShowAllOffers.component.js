@@ -12,6 +12,7 @@ function AdminShowAllOffers(props)
     var [phoneNumberFilter,setPhoneNumberFilter] = useState();
     var [winnerGenerated,setWinnerGenerated] = useState(false);
     // var [productDeleted,setProductDeleted] = useState(false);
+    var [participantsCountList, setParticipantsCountList] = useState({});
 
     var today = new Date()
     var presentDate = new Date(today.getTime() - (today.getTime()%(1000 * 60 * 60 *24)))
@@ -19,7 +20,18 @@ function AdminShowAllOffers(props)
     useEffect(() => {
         fetchOffers();
         return () => {}
-    },[winnerGenerated]);
+    },[winnerGenerated, participantsCountList]);
+
+     const fetchParticipantsCount = (id) => {
+        axios.get(`/offers/fetchparticipantscount/${id}`)
+        .then((res) => {
+            console.log("new participant count", {...participantsCountList, [id]: res.data.data.count})
+            setParticipantsCountList({...participantsCountList, [id]: res.data.data.count})
+        })
+        .catch((err) => {
+            toast.error(err.response.data.message)
+        })
+     }
 
     const fetchOffers = () => {
         axios.get("/offers/")
@@ -120,17 +132,19 @@ function AdminShowAllOffers(props)
         <div className="productList-titles row">
             <div className="col-1" style={{fontWeight:"600"}}>Date</div>
             <div className="col-1" style={{fontWeight:"600"}}>Image</div>
-            <div className="col-1" style={{fontWeight:"600"}}>Product Name</div>
+            <div className="col-1" style={{fontWeight:"600"}}>Product</div>
             <div className="col-2" style={{fontWeight:"600"}}>Description</div>
-            <div className="col-1" style={{fontWeight:"600"}}>Worth</div>
             <div className="col-2" style={{fontWeight:"600"}}>Winner Name</div>
-            <div className="col-1" style={{fontWeight:"600"}}>Winner Phone Number</div>
-            <div className="col-1" style={{fontWeight:"600"}}>Winner Image</div>
-            <div className="col-2" style={{fontWeight:"600"}}></div>
+            <div className="col-1" style={{fontWeight:"600"}}>Winner Cell</div>
+            <div className="col-1" style={{fontWeight:"600"}}>Image</div>
+            <div className="col-2" style={{fontWeight:"600"}}>Participants Count</div>
         </div>
         <div className="subCategory-container">
             {filteredOffers?<div>
-                {filteredOffers.length>0?filteredOffers.slice(0).reverse().map((offer) => {return <div className="productList-item row" id={offer._id}>
+                {filteredOffers.length>0?filteredOffers.slice(0).reverse().map((offer) => {
+                    console.log("currennt offer id", offer._id);
+
+                    return <div className="productList-item row" id={offer._id}>
                 <div className="offerList-item-date col-1">
                         <p style={{margin:"25px 0px"}}>{offer.date.slice(0,10)}</p>
                     </div>
@@ -143,9 +157,6 @@ function AdminShowAllOffers(props)
                     <div className="offerList-item-description col-2" style={{textAlign:"left"}}>
                         <p style={{margin:"25px 0px",fontWeight:"500",textTransform:"capitalize"}}>{offer.description}</p>
                     </div>
-                    <div className="offerList-item-price col-1">
-                        <p style={{margin:"25px 0px"}}>Rs {offer.worth}</p>
-                    </div>
                     <div className="offerList-item-winnerName col-2">
                         <p style={{margin:"25px 0px"}}>{offer.winnerName?offer.winnerName:"Yet to be decided"}</p>
                     </div>
@@ -154,6 +165,11 @@ function AdminShowAllOffers(props)
                     </div>
                     <div className="offerList-item-winnerPhoneNumber col-1">
                         {offer.winnerImage?<img src={offer.winnerImage} style={{width:"80px",height:"80px"}}/>:<p style={{margin:"25px 0px"}}>N.A.</p>}
+                    </div>
+                    <div className="offerList-item-noOfParticipants col-1">
+                        {/* <div> {participantsCountList.find(x => x.id === offer._id)? participantsCountList.find(x => x.id === offer._id).count : "N.A"} </div> */}
+                        <div> {participantsCountList[offer._id]>=0 ? participantsCountList[offer._id] : "N.A"} </div>
+                        <button className="fetch-participants-count" onClick={() => fetchParticipantsCount(offer._id)}>fetch</button>
                     </div>
                     <div className="offerList-item-edit col-1">
                         <button className="btn btn-secondary productList-item-edit-btn" style={{margin:"25px 10px 25px 0px"}} id={offer._id} onClick={handleEditOffer}>Edit</button>

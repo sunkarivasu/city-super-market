@@ -3,11 +3,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    max-width: 400px;
+    /* width: 100%; */
+    width: 370px;
     background-color: transparent; /* Transparent background */
-    padding: 20px;
     margin: 0 auto;
+    justify-content: center;
   }
 
   /* Container for steps */
@@ -43,7 +43,7 @@
   }
 
   /* Styling for active, completed, and upcoming steps */
-  .active {
+  .step-wrapper .active {
     background-color: green;
     color: white;
   }
@@ -107,6 +107,7 @@
     height: 2px;
     background-color: green;
     z-index: -1;
+    margin: 0px 10px;
   }
 
   /* Line for completed steps */
@@ -125,7 +126,7 @@
   }
 
   /* Limiting progress bar to maximum width of 400px */
-  .progress-bar {
-    max-width: 500px;
+  /* .progress-bar {
+    min-width: 500px;
     margin: 0 auto;
-  }
+  } */

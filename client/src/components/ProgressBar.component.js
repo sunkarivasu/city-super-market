@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/ProgressBar.css"; // Import the CSS file for styling
 
-const ProgressBar = ({ steps, currentStep }) => {
+const ProgressBar = ({ steps, currentStep, isCorrect=true }) => {
   // Limit steps to maximum of 3
   const displayedSteps = steps.slice(0, 3);
 

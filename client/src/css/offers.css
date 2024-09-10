@@ -123,7 +123,7 @@
     width: 30px;
     height: 40px;
     font-size: 20px;
-    color: white;
+    /* color: white; */
 }
 
 
@@ -473,3 +473,16 @@
     text-align: center;
 }
 
+.offerList-item-noOfParticipants{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.offerList-item-noOfParticipants button{
+    border: none;
+    text-transform: capitalize;
+    background-color: transparent;
+    color: #295F98;
+}

@@ -11,10 +11,7 @@ const ScratchCard = ({rank, message, hide= false}) => {
 
         const initializeCanvas = () => {
             const gradient = canvasContext.createLinearGradient(0, 0, 135, 135);
-            // gradient.addColorStop(0, "#d63031");
-            // gradient.addColorStop(1, "#fdcb6e");
             gradient.addColorStop(0, "#758694");
-            // gradient.addColorStop(1, "#31363F");
             canvasContext.fillStyle = gradient;
             canvasContext.fillRect(0, 0, 200, 200);
 

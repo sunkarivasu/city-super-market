@@ -76,7 +76,7 @@ const UserRequestForm = ({phoneNumber = ""}) => {
         case 'name':
             if(value.length<3)
             setForm({...form,nameErr:"Name should contain atleast 3 characters",name:value})
-            else if (!value.match(/^[a-zA-Z ]{3,}$/gm))
+            else if (!value.match(/^[a-zA-Z. ]{3,}$/gm))
             {
             setForm({...form,nameErr:"Name should only contain characters",name:value})
             //console.log("Iam here",form)
