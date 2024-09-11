@@ -223,9 +223,9 @@ router.route('/isofferactive').get(async (req, res) => {
             // Set time to 8:00 PM (20:00 hours)
             expiresAt.setHours(20, 0, 0, 0);
         }
-        console.log("expiresAt", expiresAt.getTime())
-        console.log("current time", currentTime)
-        console.log("offer activatedAt", activeOffer.activatedAt.getTime())
+        console.log("expiresAt", expiresAt.getTime(), expiresAt)
+        console.log("current time", currentTime, new Date(currentTime))
+        console.log("offer activatedAt", activeOffer.activatedAt.getTime(), new Date(activeOffer.activatedAt.getTime()))
         // Check if the offer is still within the activation period
         if (activeOffer.isActive && activeOffer.activatedAt && (currentTime >= activeOffer.activatedAt.getTime() && currentTime <= expiresAt.getTime())) {
             console.log("active")
