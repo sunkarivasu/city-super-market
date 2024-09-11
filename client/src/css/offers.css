@@ -21,10 +21,15 @@
 
 .offers-page .csm-heading
 {
-    font-size: 20px;
-    margin: auto;
-    color: #576CBC;
+    font-size: 25px;
+    margin: 10px auto 20px auto;
+    color: #227799;
+    letter-spacing: 2px
+}
 
+.one-rupee-heading{
+    font-size: larger;
+    letter-spacing: 2px;
 }
 
 .scratch-card{
@@ -44,8 +49,8 @@
 
 .offers-page .description
 {
-    font-size: small;
-    opacity: 0.9;
+    font-size: 15px;
+    opacity: 0.8;
 }
 
 .others
@@ -84,7 +89,8 @@
 .winner-name
 {
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 500;
+    text-transform: capitalize;
 }
 
 .winner-details
@@ -182,7 +188,7 @@
 
 .product-name
 {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 20px;
     text-transform: capitalize;
     letter-spacing: 0cap;
@@ -211,7 +217,7 @@
 {
     margin-top: 20px;
     color: #005555;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .winner-date
@@ -471,6 +477,7 @@
 {
     opacity: 70%;
     text-align: center;
+    margin: 15px 0px;
 }
 
 .offerList-item-noOfParticipants{
@@ -485,4 +492,22 @@
     text-transform: capitalize;
     background-color: transparent;
     color: #295F98;
+}
+
+.text-align-center{
+    text-align: center;
+}
+
+.payment-number{
+    font-weight: 500;
+    display: inline;
+    font-size: 21px;
+    color: #654E92
+}
+
+.payment-option{
+    display: block;
+    font-weight: 500;
+    color: #005555;
+    margin: 5px;
 }

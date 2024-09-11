@@ -283,7 +283,8 @@ const saveOfferParticipant = async (offer, offerUser) => {
     const offerParticipantData = {
         offerId: offer._id,
         offerUserId: offerUser._id,
-        rank: rank
+        rank: rank,
+        createdAt: new Date(),
     };
     console.log("offerParticipantData", offerParticipantData)
 

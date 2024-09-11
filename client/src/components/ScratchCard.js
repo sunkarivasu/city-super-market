@@ -14,13 +14,6 @@ const ScratchCard = ({rank, message, hide= false}) => {
             gradient.addColorStop(0, "#758694");
             canvasContext.fillStyle = gradient;
             canvasContext.fillRect(0, 0, 200, 200);
-
-            // // Generate a random prize value from the available options
-            // const prizeOptions = [
-            //     "$1", "$5", "$10", "$20", "$25", "$30", "$35", "$40", "$45", "$50"
-            // ];
-            // const randomPrize = prizeOptions[Math.floor(Math.random() * prizeOptions.length)];
-            // setPrizeValue(randomPrize);
         };
 
         const scratch = (x, y) => {
@@ -81,7 +74,6 @@ const ScratchCard = ({rank, message, hide= false}) => {
         <div className="scratchcard-container">
             <div className="base">
                 <div className="rank">{rank}</div>
-                <div className="rank-msg">Rank</div>
                 <div className="message">{message}</div>
             </div>
             <canvas

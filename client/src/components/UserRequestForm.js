@@ -132,7 +132,7 @@ const UserRequestForm = ({phoneNumber = ""}) => {
     return <div className="offer-user-request-form">
     <form className="admin-form offer-user-request-form" onSubmit={(e) =>{e.preventDefault();}}>
         <p className="offerUserRequestForm-title">Send Request</p>
-        <p className="offerUserRequest-description">Send us a request to be a part of this offer</p>
+        <p className="offerUserRequest-description">Send us a request & make payment to <div className="payment-number"> 9059186409 </div> via <div className="payment-option">PhonePe/GooglePay/Paytm</div></p>
         <div className="form-group">
             <label for="name">Name</label>
             <input type="text" className="form-control name" id="name" onChange={handleChangeForm} value={form.name} placeholder=""/>
@@ -140,7 +140,7 @@ const UserRequestForm = ({phoneNumber = ""}) => {
         </div>
         <div className="form-group" >
             <label for="phoneNumber">Phone Number</label>
-            <input type="text" className="form-control phoneNumber"  onChange={handleChangeForm} id="phoneNumber" value={form.phoneNumber}/>
+            <input type="number" className="form-control phoneNumber"  onChange={handleChangeForm} id="phoneNumber" value={form.phoneNumber}/>
             { form.phoneNumberErr.length>0 && form.phoneNumberErr!="init" && <p className="adminErr err">{form.phoneNumberErr}</p>}
         </div>
         <div className="form-group" >

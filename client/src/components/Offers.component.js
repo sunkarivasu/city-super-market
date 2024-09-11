@@ -264,12 +264,13 @@ function OffersPage()
                 <div className="container">
                     <div className="top-heading">
                         <div className="csm-heading">
-                            <b><img className="csm-logo" src="images/offers/csm-logo.jpg"/> CITY SUPER MARKET</b>
+                            <b> CITY SUPER MARKET</b>
+                            {/* <b> City Super Market</b> */}
                         </div>
                         <div className="one-rupee-heading">
                             <b className="">ONE RUPEE OFFER</b>
                         </div>
-                        <p className="description">Just pay 30 Rupees to be a member of this offer for 1 month</p>
+                        <p className="description">Pay just 50 Rupees to become a member of this offer for 50 days.</p>
                     </div>
                     {normalOffers.length > 0 && <div className="normal-offers-container">
                         <h5>Special offers only for you</h5>
@@ -350,8 +351,7 @@ function WinnerComponent(props)
                 }
             </div>
             <div className="winner-details">
-                <div className="winner-name">{props.winner && props.winner.winnerName}</div>
-                {props.singleDay && props.winner && !props.winner.winnerImage && <div className="winner-phoneNumber">{props.winner && props.winner.winnerPhoneNumber}</div>}
+                <div className="winner-name">{props.winner && props.winner.winnerName.toLowerCase()}</div>
                 <div className="winner-date">{props.winner && props.winner.date.slice(0,10)}</div>
             </div>
         </div>

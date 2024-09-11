@@ -17,9 +17,8 @@ var offerParticipantsSchema = new mongoose.Schema(
             index: true,
             unique: true,
         },
-        createAt:{
+        createdAt:{
             type:Date,
-            default: new Date()
         }
     }
 );
