@@ -228,6 +228,7 @@ router.route('/isofferactive').get(async (req, res) => {
         console.log("offer activatedAt", activeOffer.activatedAt.getTime())
         // Check if the offer is still within the activation period
         if (activeOffer.isActive && activeOffer.activatedAt && (currentTime >= activeOffer.activatedAt.getTime() && currentTime <= expiresAt.getTime())) {
+            console.log("active")
             return res.status(200).json({
                 message: "Data fetched successfully",
                 data: {
@@ -235,6 +236,7 @@ router.route('/isofferactive').get(async (req, res) => {
                 }
             });
         } else {
+            console.log("inactive")
             return res.status(200).json({
                 message: "Data fetched successfully",
                 data: {
