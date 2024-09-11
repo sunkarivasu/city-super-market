@@ -47,9 +47,20 @@ router.route("/add").post((req,res)=>
         }
         else
         {
-            newUserRequest.save()
-            .then(() => res.send({status:true,msg:"User Request added"}))
-            .catch((err) => res.status(400).json("Error"+err));
+            UserRequest.findOne({phoneNumber: req.body.phoneNumber, status: ""})
+            .then((userRequest) => {
+                if(userRequest){
+                    res.send({status: false, msg: "You have an existing active request"})
+                }
+                else{
+                    newUserRequest.save()
+                    .then(() => res.send({status:true,msg:"User Request added"}))
+                    .catch((err) => res.status(500).json({msg: "Internal server error"}))
+                }
+            })
+            .catch((err) => {
+                return res.status(500).json({msg: "Internal server error"})
+            })
         }
     })
 });

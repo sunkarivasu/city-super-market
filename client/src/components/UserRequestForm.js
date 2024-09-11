@@ -112,11 +112,12 @@ const UserRequestForm = ({phoneNumber = ""}) => {
             {
                 toast.success("Request sent successfully",{position:toast.POSITION.BOTTOM_CENTER});
                 setForm({...initialUserRequestForm, phoneNumber: ""})
+                setCanBeSubmitted(false);
                 console.log("added successfully");
             }
             else
             {
-                toast.warning("Phone Number Already Exists",{position:toast.POSITION.BOTTOM_CENTER});
+                toast.warning(res.data.msg,{position:toast.POSITION.BOTTOM_CENTER});
                 console.log("phone Number already exists");
             }
         })
