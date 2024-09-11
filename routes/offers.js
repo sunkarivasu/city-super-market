@@ -238,8 +238,7 @@ router.route('/isofferactive').get(async (req, res) => {
             return res.status(200).json({
                 message: "Data fetched successfully",
                 data: {
-                    // isActive: false,
-                    isActive: true,
+                    isActive: false,
                 }
             });
         }
