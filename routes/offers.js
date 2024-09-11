@@ -221,7 +221,7 @@ router.route('/isofferactive').get(async (req, res) => {
             expiresAt = new Date(activeOffer.activatedAt.getTime());
 
             // Set time to 8:00 PM (20:00 hours)
-            expiresAt.setHours(20, 0, 0, 0);
+            expiresAt.setHours(14, 30, 0, 0);
         }
         console.log("expiresAt", expiresAt.getTime(), expiresAt)
         console.log("current time", currentTime, new Date(currentTime))
