@@ -2,26 +2,28 @@ var mongoose = require("mongoose");
 
 var offerParticipantsSchema = new mongoose.Schema(
     {
-        offerId:{
+        offerId: {
             ref: 'offer',
             type: mongoose.Schema.ObjectId,
             index: true,
         },
-        offerUserId:{
+        offerUserId: {
             ref: 'offerUser',
             type: mongoose.Schema.ObjectId,
             index: true,
         },
-        rank:{
+        rank: {
             type: Number,
             index: true,
-            unique: true,
         },
-        createdAt:{
-            type:Date,
+        createdAt: {
+            type: Date,
         }
     }
 );
+
+// Create a unique compound index on offerId and rank
+offerParticipantsSchema.index({ offerId: 1, rank: 1 }, { unique: true });
 
 var OfferParticipants = mongoose.model("offerParticipants", offerParticipantsSchema);
 

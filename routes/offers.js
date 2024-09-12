@@ -222,6 +222,7 @@ router.route('/isofferactive').get(async (req, res) => {
 
             // Set time to 8:00 PM (20:00 hours)
             expiresAt.setHours(14, 30, 0, 0);
+            // expiresAt.setHours(20, 0, 0, 0);
         }
         console.log("expiresAt", expiresAt.getTime(), expiresAt)
         console.log("current time", currentTime, new Date(currentTime))
@@ -278,6 +279,7 @@ router.route("/fetchparticipantscount/:id").get((req,res) =>
 
 const saveOfferParticipant = async (offer, offerUser) => {
     let noOfExistingRecords = await OfferParticipants.countDocuments({ offerId: offer._id });
+    console.log("offer", offer, noOfExistingRecords);
     let rank = noOfExistingRecords + 1; // Start with the expected rank
 
     const offerParticipantData = {
@@ -306,8 +308,8 @@ const saveOfferParticipant = async (offer, offerUser) => {
             await offer.save()
         } catch (err) {
             // Check if it's a MongoDB duplicate key error (code 11000)
-            if (err.code === 11000 && err.keyPattern && err.keyPattern.rank) {
-                // If rank is duplicated, increment the rank and try again
+            if (err.code === 11000 && err.keyPattern && err.keyPattern.offerId && err.keyPattern.rank) {
+                // If the combination of offerId and rank is duplicated, increment the rank and try again
                 rank++;
                 offerParticipantData.rank = rank; // Update the rank in the data object
             } else {
