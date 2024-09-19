@@ -265,7 +265,6 @@ function OffersPage()
                     <div className="top-heading">
                         <div className="csm-heading">
                             <b> CITY SUPER MARKET</b>
-                            {/* <b> City Super Market</b> */}
                         </div>
                         <div className="one-rupee-heading">
                             <b className="">ONE RUPEE OFFER</b>
@@ -351,7 +350,7 @@ function WinnerComponent(props)
                 }
             </div>
             <div className="winner-details">
-                <div className="winner-name">{props.winner && props.winner.winnerName.toLowerCase()}</div>
+                <div className="winner-name">{props.winner && props.winner.winnerName && props.winner.winnerName.toLowerCase()}</div>
                 <div className="winner-date">{props.winner && props.winner.date.slice(0,10)}</div>
             </div>
         </div>
