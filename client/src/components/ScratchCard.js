@@ -74,16 +74,12 @@ const ScratchCard = ({rank, message, hide= false}) => {
         <div className="scratchcard-container">
             <div className="base">
                 <div className="rank">{rank}</div>
-                <div className="message">{message}</div>
             </div>
             <canvas
                 id="scratch"
                 width="200"
                 className={hide?"hide":""}
                 height="200"
-                style={{
-                    // cursor: 'url("https://media.geeksforgeeks.org/wp-content/uploads/20231030101751/bx-eraser-icon.png"), auto'
-                }}
             ></canvas>
         </div>
     );

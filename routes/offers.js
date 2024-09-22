@@ -7,6 +7,9 @@ const res = require("express/lib/response");
 const { isAdmin } = require("../client/src/utils/validators");
 const passport = require("passport");
 const { current } = require("@reduxjs/toolkit");
+const { addHexAndDecimalToHash } = require("../utils/string");
+const { generateWinner } = require("../services/offers");
+const { response } = require("express");
 
 router.route("/").get((req,res)=>
 {
@@ -65,6 +68,87 @@ router.route("/idNo/:idNumber").get((req,res) =>
     })
     .catch((err) => {res.status(400).json("Error:"+err)});
 });
+
+router.route("/getluckycode").get((req, res) => {
+    console.log("fetching lucky code")
+    const TodaysDate = new Date(new Date().getTime() + (1000 * 60 * 60 * 5.5));
+    var todaysTime = TodaysDate.getTime()
+    var today = new Date(todaysTime - (todaysTime % (1000 * 60 * 60 * 24)))
+    Offer.findOne({
+        date: today
+    })
+    .then((offer) => {
+        if(!offer){
+            return res.status(404).json(
+                {
+                    msg: "No Active Offer",
+                    data: null
+                }
+            )
+        }
+        else{
+            if(!offer.winnerPhoneNumber){
+                return res.status(400).json(
+                    {
+                        msg: "Winner Not Yet Generated",
+                        data: null
+                    }
+                )
+            }
+            else{
+                OfferUser.findOne(
+                    {
+                        phoneNumber: offer.winnerPhoneNumber
+                    }
+                )
+                .then((offeruser) => {
+                    OfferParticipants.findOne({
+                        offerUserId: offeruser._id,
+                        offerId: offer._id
+                    })
+                    .then((offerparticipant) => {
+                        console.log(offer, offerparticipant)
+                        return res.status(200).json(
+                            {
+                                msg: "Lucky Code Fetched successfully",
+                                data: {
+                                    code: addHexAndDecimalToHash(offer._id.toString().substring(0,6), offerparticipant.rank)
+                                }
+                            }
+                        )
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        return res.status(500).json(
+                            {
+                                msg:"Internal Server Error",
+                                data: null
+                            }
+                        )
+                    })
+                })
+                .catch((err) => {
+                    console.error(err)
+                    return res.status(500).json(
+                        {
+                            msg:"Internal Server Error",
+                            data: null
+                        }
+                    )
+                })
+            }
+        }
+    })
+    .catch((err) => {
+        console.error(err)
+        return res.status(500).json(
+            {
+                msg:"Internal Server Error",
+                data: null
+            }
+        )
+    })
+})
 
 router.route("/updateOfferDetails/").put((req,res) =>
 {
@@ -147,8 +231,7 @@ router.route("/participate").post(async (req, res) => {
         if(existingOfferParticipantRecord){
             return res.status(200).json(
                 {
-                    "message":existingOfferParticipantRecord.rank === 1 ? "Congrats you're the winner" : "Better Luck Next Time",
-                    "rank": existingOfferParticipantRecord.rank,
+                    "rank":  addHexAndDecimalToHash(offer._id.toString().substring(0, 6), existingOfferParticipantRecord.rank),
                     "name": offerUser.name,
                     "isAlreadyParticipated": true
                 }
@@ -157,8 +240,7 @@ router.route("/participate").post(async (req, res) => {
         const rank = await saveOfferParticipant(offer, offerUser);
         return res.status(200).json({
             "name": offerUser.name,
-            "rank": rank,
-            "message":rank === 1 ? "Congrats you're the winner" : "Better Luck Next Time",
+            "rank": addHexAndDecimalToHash(offer._id.toString().substring(0, 6), rank),
             "isAlreadyParticipated": false
         })
     })
@@ -233,7 +315,8 @@ router.route('/isofferactive').get(async (req, res) => {
             return res.status(200).json({
                 message: "Data fetched successfully",
                 data: {
-                    isActive: true,
+                    // isActive: true,
+                    isActive: false,
                 }
             });
         } else {
@@ -276,6 +359,22 @@ router.route("/fetchparticipantscount/:id").get((req,res) =>
         })
     })
 
+
+router.route("/generateTodaysWinner").get(async (req,res) =>{
+    generateWinner
+    .then((response) => {
+        res.status(response.statusCode).json({
+            msg: response.msg,
+            data: null
+        })
+    })
+    .catch((err) => {
+        res.status(500).json({
+            msg: "Internal Server Error",
+            data: null
+        })
+    })
+})
 
 const saveOfferParticipant = async (offer, offerUser) => {
     let noOfExistingRecords = await OfferParticipants.countDocuments({ offerId: offer._id });

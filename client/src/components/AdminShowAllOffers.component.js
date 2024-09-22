@@ -43,20 +43,20 @@ function AdminShowAllOffers(props)
         .catch((err) => console.log("Error Occured while fetching products"))
     }
 
-    // function handleGenerateWinner(){
-    //     console.log("generating winner...");
-    //     axios.get("/offers/generateTodaysWinner")
-    //     .then((res) =>{
-    //         console.log(res.data);
-    //         console.log("winner generated..");
-    //         toast.success("winner generated successfully",{position:toast.POSITION.BOTTOM_CENTER});
-    //         setWinnerGenerated(true);
-    //     })
-    //     .catch((err) =>{
-    //         console.log("Error occured While generating winnner",err);
-    //         toast.error("winner generation failed",{position:toast.POSITION.BOTTOM_CENTER});
-    //     })
-    // }
+    function handleGenerateWinner(){
+        console.log("generating winner...");
+        axios.get("/offers/generateTodaysWinner")
+        .then((res) =>{
+            console.log(res.data);
+            console.log("winner generated..");
+            toast.success("winner generated successfully",{position:toast.POSITION.BOTTOM_CENTER});
+            setWinnerGenerated(true);
+        })
+        .catch((err) =>{
+            console.log("Error occured While generating winnner",err);
+            toast.error("winner generation failed",{position:toast.POSITION.BOTTOM_CENTER});
+        })
+    }
 
     function handleChangePhoneNumber(event)
     {
@@ -120,9 +120,9 @@ function AdminShowAllOffers(props)
                 <label style={{fontWeight:"500",fontSize:"1.1rem"}}>Phone Number</label>
                 <input type="text" className="subCategory-select phoneNumber-filter-input" value={phoneNumberFilter} onChange={handleChangePhoneNumber}></input>
             </div>
-            {/* <div className="navbar-category">
+            <div className="navbar-category">
                 <button className="btn btn-secondary productList-item-delete-btn" onClick={handleGenerateWinner}>Generate Winnner</button>
-            </div> */}
+            </div>
 
         </div>
         <div style={{display:"block"}}>

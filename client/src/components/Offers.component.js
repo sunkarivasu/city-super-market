@@ -40,11 +40,19 @@ function OffersPage()
     var [normalOffers,setNormalOffers] = useState([])
     var [generatedWinner,setGeneratedWinnner] = useState(null)
     var [isGameTime, setIsGameTime] = useState(false);
+    var [luckycode, setLuckyCode] = useState("");
 
     useEffect(() => {
         axios.get("/offers/isofferactive")
         .then((res) => {
             setIsGameTime(res.data.data.isActive)
+        })
+        .catch((err) => {
+            console.error(err)
+        })
+        axios.get("/offers/getluckycode")
+        .then((res) => {
+            setLuckyCode(res.data.data.code)
         })
         .catch((err) => {
             console.error(err)
@@ -271,6 +279,9 @@ function OffersPage()
                         </div>
                         <p className="description">Pay just 50 Rupees to become a member of this offer for 50 days.</p>
                     </div>
+                    {luckycode && <div className="lucky-code-div scrolling-text">
+                        <p className="lucky-code-value">{luckycode}</p>
+                    </div>}
                     {normalOffers.length > 0 && <div className="normal-offers-container">
                         <h5>Special offers only for you</h5>
                         <div id="offer-carousel" className="carousel slide" data-ride="carousel">
